@@ -145,11 +145,6 @@ vector<string*> Relations:: get_tuple_line(int line_num)
 			temp.push_back(table[i][line_num]);
 	return temp;
 }
-<<<<<<< .mine
-
-
-		
-=======
 
 vector<string> Relations::get_tuple_string(int line_num)
 {
@@ -160,8 +155,7 @@ vector<string> Relations::get_tuple_string(int line_num)
 	return tuple;
 
 }
->>>>>>> .r66
-			
+
 			
 			
 			
