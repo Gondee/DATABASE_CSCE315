@@ -26,6 +26,7 @@ Relations Engine::Selection(string new_name, Relations rp, string att, string va
 
 	if (check->get_domain()=="INTEGER")
 	{
+		//cout << "we're here\n" << value << endl;
 
 	for(int i = 0; i < rp.get_num_rows(); i++)
 	{
@@ -193,7 +194,7 @@ void Engine::queryParser(vector<string> TOKENS)
 	vector<string>::const_iterator b = TOKENS.end();
 	vector<string> nextexpression(a,b);
 	Relations r = expressionParser(TOKENS[0], nextexpression);
-	DB.add_Relations(&r);
+	//DB.add_Relations(&r);
 }
 
 Relations Engine::expressionParser(string newname, vector<string> expression)
@@ -216,20 +217,20 @@ Relations Engine::expressionParser(string newname, vector<string> expression)
 			if (expression[next]==all_exp[i])
 				curr_exp = express(i+1);
 		}
-		
-		for (next = 1; expression[next]!=")"; next++)
+		next++;
+		for (; expression[next]!=")"; next++)
 		{
-			if(expression[next]!="(" || expression[next]!=",")
+			if(expression[next]!="(" && expression[next]!=",")
 				complement.push_back(expression[next]);
 		}
 
 		vector<string>::const_iterator a = expression.begin()+(++next);
 		vector<string>::const_iterator b = expression.end();
 		vector<string> nextexpression(a,b);
+		
 		temp = expressionParser("temp", nextexpression);
-
-
-
+		//raise(SIGABRT);
+		
 		switch(curr_exp)
 		{
 		case sel:
@@ -241,10 +242,12 @@ Relations Engine::expressionParser(string newname, vector<string> expression)
 			string check = complement[2];
 			std::string::const_iterator it = check.begin();
 			while (it != check.end() && std::isdigit(*it)) ++it;
-			if (!check.empty() && it == check.end() || *check.begin()=='"')
-				return Selection(newname, temp, complement[0], complement[2], curr_comp);
-			else
-				return Selection1(newname, temp, complement[0], complement[2], curr_comp);
+			if (it == check.end() || *check.begin()=='"'){
+				if (*check.begin()=='"'){
+					check.erase(check.begin()); check.erase(check.end()-1);}
+				return Selection(newname, temp, complement[0], check, curr_comp);}
+			else{
+				return Selection1(newname, temp, complement[0], check, curr_comp);}
 			}
 		case re:
 			return rename(newname, temp, complement);
@@ -256,8 +259,7 @@ Relations Engine::expressionParser(string newname, vector<string> expression)
 	else
 	{
 		temp = operationsParser(newname, expression);
-		//raise(SIGABRT);
-		return temp;	
+		return temp;
 	}	
 
 }
@@ -275,15 +277,13 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 	while (expression[next]=="(")	//first token that is not (
 		next++;
 	if (expression.size() < 4){	//not an operation, just a table
-		View(expression[next]);
-		cout << endl << "end table"; 
 		return *(DB.get_Relations(expression[next]));
 	}
 
 	int i = 0;
 	while (i < 3)
 		{
-			if(expression[next]!="(" || expression[next]!="," || expression[next]!=")" ){
+			if(expression[next]!="(" && expression[next]!="," && expression[next]!=")" ){
 				complement.push_back(expression[next]);
 				next++; i++;
 			}
