@@ -28,12 +28,14 @@ void DataBase::add_Attribute(Attribute* a)
 
 void DataBase::add_Relations(Relations* r)
 {
+	bool not_added = true;
 	for (int i = 0; i < All_Relations.size(); i++)
 	{
-		if (r->get_name()==All_Relations[i]->get_name())
+		if (r->get_name()==All_Relations[i]->get_name()){
 			All_Relations[i] = r;
+			not_added = false;}
 	}
-	else
+	if (not_added)
 		All_Relations.push_back(r);
 }
 

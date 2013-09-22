@@ -276,7 +276,7 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 	int next = 0;
 	while (expression[next]=="(")	//first token that is not (
 		next++;
-	if (expression.size() < 4){	//not an operation, just a table
+	if (expression.size() < 3){	//not an operation, just a table
 		return *(DB.get_Relations(expression[next]));
 	}
 
@@ -289,11 +289,16 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 			}
 		}
 
+	
+
 	for (int i = 0; i < all_ops.size(); i++){
 		if (complement[1]==all_ops[i])
 				curr_op =ops(i+1);}
+	
 	first = *(DB.get_Relations(complement[0]));
 	second = *(DB.get_Relations(complement[2]));
+	
+	
 	switch (curr_op)
 	{
 	case plus:
@@ -302,9 +307,11 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 		temp = difference(newname, first, second);
 	case cross:
 		temp = cross_prod(newname, first, second);
+		
 	}
 
-	while (expression[next] != ";")
+	//raise(SIGABRT);
+	while (next < expression.size())
 	{
 	while (expression[next]==")")	//first token that is not )
 		next++;
@@ -329,6 +336,64 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 		}
 	}
 	}
+	
 	return temp;
 
+}
+
+Relations Engine::cross_prod(string newname, Relations first, Relations second)
+{
+	
+	string first_copy = first.get_name();
+	string second_copy = second.get_name();
+	vector<Attribute*> firstatts = first.get_att_list();
+	vector<Attribute*> secondatts = second.get_att_list();
+	vector<string> att_names_copy, domains_copy, key_copy;
+	
+	for (int i = 0; i < firstatts.size()+secondatts.size(); i++)
+	{
+		string newatt;
+		if (i < firstatts.size()){
+			newatt = first_copy;
+			newatt += ".";
+			newatt += firstatts[i]->get_name();
+			att_names_copy.push_back(newatt);
+
+			domains_copy.push_back(firstatts[i]->get_domain());
+			if (first.get_keys()[i])
+				key_copy.push_back(firstatts[i]->get_name());
+		}
+
+		else
+		{
+			newatt = second_copy;
+			newatt += ".";
+			newatt += secondatts[i-firstatts.size()]->get_name();
+			att_names_copy.push_back(newatt);
+
+			domains_copy.push_back(secondatts[i-firstatts.size()]->get_domain());
+			if (second.get_keys()[i-firstatts.size()])
+				key_copy.push_back(secondatts[i-firstatts.size()]->get_name());
+		}
+
+	}
+	
+	DB.create_Table(newname, att_names_copy, domains_copy, key_copy);
+	
+	
+	for (int i = 0; i < second.get_num_rows(); i++)
+	{
+		vector<string> part2 = second.get_tuple_string(i);
+
+		for (int j = 0; j < first.get_num_rows(); j++)
+		{
+			vector<string> part1 = first.get_tuple_string(j);
+			part1.insert(part1.end(), part2.begin(), part2.end());
+			DB.Insert(newname, part1);
+		}
+
+
+	}
+
+	return *(DB.get_Relations(newname));
 }
