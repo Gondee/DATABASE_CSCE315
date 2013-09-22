@@ -1,5 +1,28 @@
 #include "Engine.h"
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Below is no longer needed -joshk
+
+/*
 int Engine::Create_Table(string n, vector<string> a, vector<string> d, vector<string> k)
 {
 	if(exist_Relations(n))
@@ -29,5 +52,6 @@ int Engine::View(string n)
 		
 	return DB.show_table(n);
 }
+*/
 
-int Engine::Difference(string rel1, string rel2);
+//int Engine::Difference(string rel1, string rel2);

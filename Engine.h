@@ -29,6 +29,7 @@ int View(string n)
 	return DB.show_table(n);
 }
 
+int Difference(string rel1, string rel2); //Harrison, this must be updated to use new Relations specs...
 
 Relations Selection(string,Relations, string, string, compare);
 Relations Selection1(string, Relations, string, string, compare);

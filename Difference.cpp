@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-//josh k
+//josh k- This function will have to be updatd to new Engine.H specs
 
 int Engine::Difference(string rel1, string rel2)
 {
