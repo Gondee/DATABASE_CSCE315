@@ -150,12 +150,11 @@ vector<string> Relations::get_tuple_string(int line_num)
 {
 	vector<string*> temp = get_tuple_line(line_num);
 	vector<string> tuple;
-	for (int i = 0; i < temp.size(), i++)
+	for (int i = 0; i < temp.size(); i++)
 		tuple.push_back(*temp[i]);
 	return tuple;
 
 }
-
 			
 			
 			
