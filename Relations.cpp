@@ -93,9 +93,15 @@ int Relations::insert_tuple(vector<string> items)
 		}
 	}
 
-	for(int i = 0; i < table.size(); i++)
+	bool add = true;
+	for(int i = 0; i < table.size(); i++){
+		if (!att_list[i]->check_domain(items[i]))
+		add = false;
+	}
+	if (add){
+	for(int i = 0; i < table.size(); i++){
 		table[i].push_back(att_list[i]->add_item(items[i]));
-		
+	}}
 	return 0;
 }
 

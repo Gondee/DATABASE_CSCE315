@@ -89,7 +89,6 @@ int Attribute::items_size()
 
 string* Attribute::add_item(string s) 
 { 	
-	if(!check_domain(s)) 
 		//cout << "FAILED DOMAIN";
 	
 	for(int i = 0; i < items.size(); i++)
