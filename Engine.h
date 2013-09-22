@@ -3,6 +3,7 @@
 
 #include "DataBase.h"
 #include <iostream>
+#include <vector>
 
 class Engine {
 private:
@@ -11,6 +12,8 @@ DataBase DB;
 enum express{sel = 1, proj, re};
 enum ops{plus=1, cross, diff};
 enum compare{eq = 1, neq, lt, gt, lte, gte};
+
+vector<string> DB_COMMANDS; //Saves all Command sentences that come from parser for loading and saving
 
 public:
 
@@ -41,19 +44,10 @@ Relations difference(string, Relations, Relations){Relations temp; return temp;}
 Relations cross_prod(string, Relations, Relations);
 
 void chooseParser(vector<string>), queryParser(vector<string>); 
-void commandParser(vector<string>){}
+void commandParser(vector<string>);
 Relations expressionParser(string, vector<string>);
 Relations operationsParser(string, vector<string>);
-/*
-int Projection(string rel, vector<strings> att);
 
-int Rename(string rel, string new_rel, vector<string> new_att);
-int Update(string rel);
-
-int Union(string rel1, string rel2);
-int Difference(string rel1, string rel2);
-int Cross_Product(string rel1, string rel2);
-*/
 };
 
 
