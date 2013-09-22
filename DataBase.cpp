@@ -28,7 +28,13 @@ void DataBase::add_Attribute(Attribute* a)
 
 void DataBase::add_Relations(Relations* r)
 {
-	All_Relations.push_back(r);
+	for (int i = 0; i < All_Relations.size(); i++)
+	{
+		if (r->get_name()==All_Relations[i]->get_name())
+			All_Relations[i] = r;
+	}
+	else
+		All_Relations.push_back(r);
 }
 
 int DataBase::exist_Relations(string) // 1 means the relation exists, 0 means it does not exist
