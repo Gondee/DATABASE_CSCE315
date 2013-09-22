@@ -39,7 +39,7 @@ void DataBase::add_Relations(Relations* r)
 		All_Relations.push_back(r);
 }
 
-int DataBase::exist_Relations(string) // 1 means the relation exists, 0 means it does not exist
+int DataBase::exist_Relations(string name) // 1 means the relation exists, 0 means it does not exist
 {
 	char exist = 'n';
 	
@@ -54,7 +54,7 @@ int DataBase::exist_Relations(string) // 1 means the relation exists, 0 means it
 	else
 		return 1;
 }
-int DataBase::exist_Attribute(string)
+int DataBase::exist_Attribute(string name)
 {
 	char exist = 'n';
 	
