@@ -24,17 +24,16 @@ Relations operationsParser(string, vector<string>);
 Relations Selection(string,Relations, string, string, compare);
 Relations Selection1(string, Relations, string, string, compare);
 Relations rename(string, Relations, vector<string>);	//i've already written these functions into my code so i had to have them return something so that everything would compile.
-Relations project(string, Relations, vector<string>){Relations temp; return temp;}	//also if you have to put a temporary table into the database that's ok just make sure its always named "temp"
+Relations project(string, Relations, vector<string>);	//also if you have to put a temporary table into the database that's ok just make sure its always named "temp"
 
-Relations unionize(string, Relations, Relations){Relations temp; return temp;}
-Relations difference(string, Relations, Relations){Relations temp; return temp;}
+Relations unionize(string, Relations, Relations);
+Relations difference(string, Relations, Relations);
 Relations cross_prod(string, Relations, Relations);
+int Union_Compatible(Relations, Relations);
+bool FileExists(string); //Checks if the DataBase exists and is not open
 
-int Union_Compatible(Relations rel1, Relations rel2);
-Relations Union(string, string, string);
-Relations Difference(string, string, string);
-
-
+Relations Union(string, string, string);//Exists in Harrison_Engine.cpp
+Relations Difference(string, string, string);//Exists in HArrison_Engine.cpp
 
 public:
 
@@ -53,8 +52,7 @@ int View(string n)
 	return DB.show_table(n);
 }
 
-bool FileExists(string); //Checks if the DataBase exists and is not open
-int Difference(string rel1, string rel2); //Harrison, this must be updated to use new Relations specs...
+
 
 
 

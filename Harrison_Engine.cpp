@@ -1,5 +1,7 @@
 #include "Engine.h"
-
+#include <string>
+#include <vector>
+#include <iostream>
 
 Relations Engine::Difference(string name, string R1, string R2)
 {

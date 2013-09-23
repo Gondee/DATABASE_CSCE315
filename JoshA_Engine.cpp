@@ -1,4 +1,4 @@
-#include "JoshA_Engine.h"
+#include "Engine.h"
 #include <stdlib.h>
 #include <csignal>
 
@@ -425,78 +425,6 @@ Relations Engine::rename(string newname, Relations rp, vector<string> newatts)
 	return *(DB.get_Relations(newname));
 }
 
-/*Relations Engine::difference(string newname, Relations R1, Relations R2)
-{
-	
-	int sameAttSize =0;
-	//Test if Relations are comparable 
-	for(int i = 0; i < R1.get_att_list().size(); i++)
-	{
-		vector<Attribute*> temp;
-		temp = R1.get_att_list();
-
-		vector<Attribute*> temp2;
-		temp2 = R2.get_att_list();
-
-		if(temp[i] == temp2[i])
-		{
-			sameAttSize++;
-
-		}
-	
-	}
-
-
-if(sameAttSize == (R1.get_att_list().size()))
-{
-	//vector<string> items, domain, key;
-	
-	vector<Attribute*> atts = R1.get_att_list();
-	vector<string> att_names_copy, domains_copy, key_copy;
-	
-
-	for (int i = 0; i < atts.size(); i++)
-	{
-		att_names_copy.push_back(atts[i]->get_name());
-		domains_copy.push_back(atts[i]->get_domain());
-		if (R1.get_keys()[i])
-			key_copy.push_back(atts[i]->get_name());
-
-	}
-	DB.create_Table(newname, att_names_copy, domains_copy, key_copy);
-	
-	for(int i =0; i < R1.get_num_rows(); i++)
-	{
-		bool add = true;
-		vector<string> Tuple;
-		Tuple = R1.get_tuple_string(i);
-
-		for(int j = 0; j < R2.get_num_rows(); j++)
-		{
-			int count = 0;
-			vector<string> TupleTwo;
-			TupleTwo = R2.get_tuple_string(j);
-
-			for (int k = 0; k < Tuple.size(); k++){
-				if (Tuple[k]==TupleTwo[k])
-					count++;
-			}
-			if(count==Tuple.size())
-				add = false;
-		}
-
-		if (add)
-			DB.Insert(newname, Tuple);
-
-	}
-
-}//End of same test if
-
-
-	return *(DB.get_Relations(newname)); 
-
-}*/
-
 Relations Engine::difference(string name, Relations rel1, Relations rel2)
 {	
 	if(!Union_Compatible(rel1, rel2))
@@ -651,6 +579,7 @@ Relations Engine::unionize(string name, Relations rel1, Relations rel2)
 	return *(DB.get_Relations(name));
 }//End of same test if
 
+/*
 int Engine::Union_Compatible(Relations rel1, Relations rel2)
 {
 	int sameAttSize = 0;
@@ -672,7 +601,7 @@ int Engine::Union_Compatible(Relations rel1, Relations rel2)
 	else
 		return 0;
 }
-
+*/
 Relations Engine::project(string newname, Relations rp, vector<string> projection)
 {
 	vector<Attribute*> atts = rp.get_att_list();

@@ -76,17 +76,26 @@ void Engine::commandParser(vector<string> TOKENS)
 	if(TOKENS[0] == "WRITE")
 	{
 
-		/*
+		
 		cout<<" \n WRITING"<<TOKENS[1]<<endl;
 		string FileName = TOKENS[1] + ".DB";
 		ofstream file (FileName.c_str());
-		//Writing DB all commands needed to re make database later
-		for(int i=0; i<DB_COMMANDS.size(); i++)
-    		file << DB_COMMANDS[i] << endl;
+
+		vector<Attribute*> Alist;
+		Alist = (DB.get_Relations(TOKENS[1])->get_att_list()); //Gets the table
+
+		
+		for(int i=0; i<Alist.size(); i++)
+		{
+    		file <<"TEST"<< endl;
+		}
+
+
+
 
   		file.close();
   		cout<<"\n WRITE COMPLETE"<<endl;
-		*/
+		
 
 	}//Endof WRITE
 
@@ -224,8 +233,54 @@ void Engine::commandParser(vector<string> TOKENS)
 
 	}
 
-	if(TOKENS[0] == "DELETE")
+	if(TOKENS[0] == "DELETE") //Not Done
 	{
+		int Position =0;
+		Position++;
+		string RN; //RelationName
+		string Att; //Attribute in Question
+		string OPP; //Operation to be peformed 
+		string Number; //INTEGER to be computed against
+
+		if(TOKENS[Position] == "FROM")
+		{
+			Position++;
+			RN = TOKENS[Position];
+			Position++;//"WHERE"
+			Position++;//"("
+
+			Position++;//ATT
+			Att = TOKENS[Position];
+			Position++;
+			OPP = TOKENS[Position];
+			Position++;
+			Number = TOKENS[Position];
+
+			vector<string> Condition_Expression;
+			Condition_Expression.push_back("select");
+			Condition_Expression.push_back("(");
+			Condition_Expression.push_back(Att);
+			Condition_Expression.push_back(OPP);
+			Condition_Expression.push_back(Number);
+			Condition_Expression.push_back(")");
+
+			Relations temp = expressionParser("temp", Condition_Expression);
+			
+
+			Condition_Expression.clear();
+			Condition_Expression.push_back("select");
+			Condition_Expression.push_back(RN);
+
+			Relations Original = expressionParser("tempone", Condition_Expression);
+
+
+			Relations temp_Diff = difference("RDiff", temp, Original);
+
+
+
+
+		}
+
 		
 		
 	}
