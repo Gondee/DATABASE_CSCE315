@@ -22,18 +22,20 @@ string name;
 
 items.push_back("model");
 items.push_back("car");
-items.push_back("price");
-
+domain.push_back("VARCHAR(20)");
+domain.push_back("VARCHAR(20)");
 
 key.push_back("model");
+test.Create_Table("temp",items,domain,key);
+
 key.push_back("car");
 
-domain.push_back("VARCHAR(20)");
-domain.push_back("VARCHAR(20)");
+items.push_back("price");
 domain.push_back("INTEGER");
 
 name = "dealership";
 string name1 = "Table2";
+
 
 test.Create_Table(name,items,domain,key);
 
@@ -54,7 +56,7 @@ values2.push_back("Bugatti");
 values2.push_back("Veyron");
 values2.push_back("2000000");
 
-values3.push_back("Toyota making this too long");
+values3.push_back("Toyota");
 values3.push_back("Corolla");
 values3.push_back("12000");
 
@@ -74,7 +76,7 @@ test.Insert("dealership",values3);
 test.Insert("dealership",values4);
 test.Insert("dealership",values5);
 
-
+cout << endl;
 test.View("dealership");
 
 cout<<"\n"<<endl;
@@ -84,8 +86,8 @@ test.Insert("Table2",values1);
 test.View("Table2"); //Commented out by joshk for testing command parser
 
 
-string instruction[] = {"American", "<-", "dealership", "*", "Table2"};
-vector<string> line(instruction,instruction+5);
+string instruction[] = {"American0", "<-", "select","(","American0.model", "==", "temp.model", ")", "(", "(", "dealership", "-", "Table2", ")", "*", "(", "dealership", "-", "Table2", ")",")",";"};
+vector<string> line(instruction,instruction+22);
 
 cout << endl;
 for (int i = 0; i < line.size(); i++)
@@ -95,8 +97,8 @@ cout << endl;
 
 test.chooseParser(line);
 
-
-test.View("American");
+cout << endl;
+test.View("American0");
 //test.create_table("test_table",
 
 //cout << *tablep.table[0][0];

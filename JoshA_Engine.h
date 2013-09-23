@@ -27,7 +27,7 @@ Relations rename(string, Relations, vector<string>);	//i've already written thes
 Relations project(string, Relations, vector<string>){Relations temp; return temp;}	//also if you have to put a temporary table into the database that's ok just make sure its always named "temp"
 
 Relations unionize(string, Relations, Relations){Relations temp; return temp;}
-Relations difference(string, Relations, Relations){Relations temp; return temp;}
+Relations difference(string, Relations, Relations);
 Relations cross_prod(string, Relations, Relations);
 
 

@@ -36,8 +36,9 @@ bool Attribute::check_domain(string s)
 	{
 		for(int i = 0; i < s.length(); i++)
 		{
-			if(!isdigit(s[i]))
-				return false;
+			if(!isdigit(s[i])){
+				cout << endl << "\"" << s << "\" is not an integer.";
+				return false;}
 		}
 		return true;
 	}
@@ -50,7 +51,7 @@ bool Attribute::check_domain(string s)
 		int length = atoi(char_length.c_str());
 		if(s.length() > length)
 		{
-			cout << endl << s << " has too many characters (domain is " << length << " characters";
+			cout << endl << s << " has too many characters (domain is " << length << " characters)";
 			return false;
 		}
 		else	

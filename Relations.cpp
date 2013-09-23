@@ -76,19 +76,24 @@ int Relations::show_table()
 int Relations::insert_tuple(vector<string> items)
 {
 	// Checks for unique key values
-	
 	for(int i = 0; i < table.size(); i++) 
 	{
 		if(keys[i]) 
 		{
 			for(int j = 0; j < table[i].size(); j++)
 			{
+				int count = 0;
 				if(items[i] == *table[i][j])
 				{
-					cout << endl <<  items[i] << " is already a key, please insert a new value in " << get_name();
-					cout << " please insert a new tuple";			
-					return 1;
+					for (int k = 0; k < table.size(); k++){
+						if(keys[k]&&items[k]==*table[k][j])
+							count++;}
 				}
+
+				if (count==keys.size()){
+				cout << endl <<  items[i] << " is already a key, please insert a new value in " << get_name();
+				cout << " please insert a new tuple";			
+				return 1;}
 			}
 		}
 	}

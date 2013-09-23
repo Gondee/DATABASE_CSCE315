@@ -112,10 +112,10 @@ Relations Engine::Selection1(string new_name, Relations rp, string att, string a
 
 	}
 	DB.create_Table(new_name, att_names_copy, domains_copy, key_copy);
-
+	
 	if (check->get_domain()=="INTEGER")
 	{
-
+	
 	for(int i = 0; i < rp.get_num_rows(); i++)
 	{
 		vector<string> current_tup = rp.get_tuple_string(i);
@@ -152,7 +152,7 @@ Relations Engine::Selection1(string new_name, Relations rp, string att, string a
 		}
 		}
 	}
-
+	
 	else {
 	for(int i = 0; i < rp.get_num_rows(); i++)
 	{
@@ -228,7 +228,7 @@ Relations Engine::expressionParser(string newname, vector<string> expression)
 		vector<string>::const_iterator b = expression.end();
 		vector<string> nextexpression(a,b);
 		
-		temp = expressionParser("temp", nextexpression);
+		temp = expressionParser(newname, nextexpression);
 		//raise(SIGABRT);
 		
 		switch(curr_exp)
@@ -293,7 +293,7 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 
 	for (int i = 0; i < all_ops.size(); i++){
 		if (complement[1]==all_ops[i])
-				curr_op =ops(i+1);}
+			curr_op =ops(i+1);}
 	
 	first = *(DB.get_Relations(complement[0]));
 	second = *(DB.get_Relations(complement[2]));
@@ -303,21 +303,23 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 	{
 	case plus:
 		temp = unionize(newname, first, second);
+		break;
 	case diff:
 		temp = difference(newname, first, second);
+		break;
 	case cross:
 		temp = cross_prod(newname, first, second);
-		
+		break;
 	}
-
 	//raise(SIGABRT);
 	while (next < expression.size()){
 	if (expression[next]==")"||expression[next]==";")	//first token that is not )
-		next++;}
+		next++;
+	else
+		break;}
 	
-	while (next < expression.size())
+	if (next < expression.size())
 	{
-
 	if (expression[next]=="+"||expression[next]=="-"||expression[next]=="*"){
 
 		for (int i = 0; i < all_ops.size(); i++){
@@ -345,7 +347,6 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 
 Relations Engine::cross_prod(string newname, Relations first, Relations second)
 {
-	
 	string first_copy = first.get_name();
 	string second_copy = second.get_name();
 	vector<Attribute*> firstatts = first.get_att_list();
@@ -363,7 +364,7 @@ Relations Engine::cross_prod(string newname, Relations first, Relations second)
 
 			domains_copy.push_back(firstatts[i]->get_domain());
 			if (first.get_keys()[i])
-				key_copy.push_back(firstatts[i]->get_name());
+				key_copy.push_back(newatt);
 		}
 
 		else
@@ -375,7 +376,7 @@ Relations Engine::cross_prod(string newname, Relations first, Relations second)
 
 			domains_copy.push_back(secondatts[i-firstatts.size()]->get_domain());
 			if (second.get_keys()[i-firstatts.size()])
-				key_copy.push_back(secondatts[i-firstatts.size()]->get_name());
+				key_copy.push_back(newatt);
 		}
 
 	}
@@ -422,4 +423,76 @@ Relations Engine::rename(string newname, Relations rp, vector<string> newatts)
 		}
 
 	return *(DB.get_Relations(newname));
+}
+
+Relations Engine::difference(string newname, Relations R1, Relations R2)
+{
+	
+	int sameAttSize =0;
+	//Test if Relations are comparable 
+	for(int i = 0; i < R1.get_att_list().size(); i++)
+	{
+		vector<Attribute*> temp;
+		temp = R1.get_att_list();
+
+		vector<Attribute*> temp2;
+		temp2 = R2.get_att_list();
+
+		if(temp[i] == temp2[i])
+		{
+			sameAttSize++;
+
+		}
+	
+	}
+
+
+if(sameAttSize == (R1.get_att_list().size()))
+{
+	//vector<string> items, domain, key;
+	
+	vector<Attribute*> atts = R1.get_att_list();
+	vector<string> att_names_copy, domains_copy, key_copy;
+	
+
+	for (int i = 0; i < atts.size(); i++)
+	{
+		att_names_copy.push_back(atts[i]->get_name());
+		domains_copy.push_back(atts[i]->get_domain());
+		if (R1.get_keys()[i])
+			key_copy.push_back(atts[i]->get_name());
+
+	}
+	DB.create_Table(newname, att_names_copy, domains_copy, key_copy);
+	
+	for(int i =0; i < R1.get_num_rows(); i++)
+	{
+		bool add = true;
+		vector<string> Tuple;
+		Tuple = R1.get_tuple_string(i);
+
+		for(int j = 0; j < R2.get_num_rows(); j++)
+		{
+			int count = 0;
+			vector<string> TupleTwo;
+			TupleTwo = R2.get_tuple_string(j);
+
+			for (int k = 0; k < Tuple.size(); k++){
+				if (Tuple[k]==TupleTwo[k])
+					count++;
+			}
+			if(count==Tuple.size())
+				add = false;
+		}
+
+		if (add)
+			DB.Insert(newname, Tuple);
+
+	}
+
+}//End of same test if
+
+
+	return *(DB.get_Relations(newname)); 
+
 }
