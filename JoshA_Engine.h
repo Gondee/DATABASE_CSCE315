@@ -16,7 +16,8 @@ enum ops{plus=1, cross, diff};
 enum compare{eq = 1, neq, lt, gt, lte, gte};
 
 
-void commandParser(vector<string>);
+void commandParser(vector<string>){}
+void queryParser(vector<string>);
 Relations expressionParser(string, vector<string>);
 Relations operationsParser(string, vector<string>);
 
