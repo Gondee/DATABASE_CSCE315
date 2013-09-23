@@ -38,7 +38,9 @@ void Engine::commandParser(vector<string> TOKENS)
 
 	if(TOKENS[0] == "OPEN")
 	{
-		cout<<" \n OPENING"<<TOKENS[1]<<endl;
+
+		/*
+		
 		if(FileExists(TOKENS[1]))
 		{
 			DB_COMMANDS.clear();
@@ -57,20 +59,22 @@ void Engine::commandParser(vector<string> TOKENS)
 
 		}
 		else 
-			cout<<"DataBase Does not exist"<<endl;
+			cout<<"Relation Does not exist"<<endl;
+	*/
 
 
-	}
+	}//Endof OPEN
 
 	if(TOKENS[0] == "CLOSE")
 	{
-		cout<<" \n CLOSING"<<TOKENS[1]<<endl;
 		DataBase temp; 
 		DB = temp;
-	}
+		cout<<"\n CLOSE SUCCESSFUL!"<<endl;
+	}//Endof CLOSE
 
 	if(TOKENS[0] == "WRITE")
 	{
+		/*
 		cout<<" \n WRITING"<<TOKENS[1]<<endl;
 
 		string FileName = TOKENS[1] + ".DB";
@@ -84,8 +88,8 @@ void Engine::commandParser(vector<string> TOKENS)
   		
   		file.close();
   		cout<<"\n WRITE COMPLETE"<<endl;
-		
-	}
+		*/
+	}//Endof WRITE
 
 	if(TOKENS[0] == "EXIT")
 	{
@@ -93,7 +97,7 @@ void Engine::commandParser(vector<string> TOKENS)
 		cout<<"\n   DONE   "<<endl;
 		cout<<"\n----------"<<endl; 
 		exit(0);
-	}
+	}//Endof EXIT
 
 	if(TOKENS[0] == "SHOW")
 	{
@@ -114,7 +118,6 @@ void Engine::commandParser(vector<string> TOKENS)
 		if(TOKENS[Position+1] == "TABLE")
 		{
 			RelationName = TOKENS[Position+2]; //Relation name used to create
-			//cout<<"CREATE TABLE " <<RelationName<<" "<<TOKENS[Position+3]<<endl;
 			Position+=4; //Move position forard to first value after Parenthesis
 			
 			

@@ -15,7 +15,6 @@ enum express{sel = 1, proj, re};
 enum ops{plus=1, cross, diff};
 enum compare{eq = 1, neq, lt, gt, lte, gte};
 
-vector<string> DB_COMMANDS; //Saves all Command sentences that come from parser for loading and saving
 
 public:
 
