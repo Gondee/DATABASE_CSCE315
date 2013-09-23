@@ -94,8 +94,13 @@ cout << endl;
 */
 
 
-//----------------josh kruger testing
+//----------------josh kruger testing for CREATE
+
 vector<string> line; 
+line.push_back("SHOW");
+line.push_back("dealership");
+
+/*
 line.push_back("CREATE");
 line.push_back("TABLE");
 line.push_back("animals");
@@ -123,7 +128,7 @@ line.push_back(",");
 line.push_back("kind");
 line.push_back(")");
 line.push_back(";");
-
+*/
 test.chooseParser(line);
 
 /*

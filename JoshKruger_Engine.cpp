@@ -39,13 +39,13 @@ void Engine::commandParser(vector<string> TOKENS)
 	if(TOKENS[0] == "OPEN")
 	{
 
-		/*
-		
+
+
+
+		/*		
 		if(FileExists(TOKENS[1]))
 		{
-			DB_COMMANDS.clear();
-
-			
+			DB_COMMANDS.clear();	
     		string STRING;
     		ifstream infile;
     		string FileName = TOKENS[1] + ".DB";
@@ -56,11 +56,12 @@ void Engine::commandParser(vector<string> TOKENS)
         		//cout<<STRING<<endl;
     		}
     		infile.close();
-
 		}
 		else 
 			cout<<"Relation Does not exist"<<endl;
 	*/
+
+
 
 
 	}//Endof OPEN
@@ -74,21 +75,23 @@ void Engine::commandParser(vector<string> TOKENS)
 
 	if(TOKENS[0] == "WRITE")
 	{
+
+
+
 		/*
 		cout<<" \n WRITING"<<TOKENS[1]<<endl;
-
 		string FileName = TOKENS[1] + ".DB";
-
 		ofstream file (FileName.c_str());
-
 		//Writing DB all commands needed to re make database later
 		for(int i=0; i<DB_COMMANDS.size(); i++)
     		file << DB_COMMANDS[i] << endl;
 
-  		
   		file.close();
   		cout<<"\n WRITE COMPLETE"<<endl;
 		*/
+
+
+
 	}//Endof WRITE
 
 	if(TOKENS[0] == "EXIT")
@@ -101,7 +104,24 @@ void Engine::commandParser(vector<string> TOKENS)
 
 	if(TOKENS[0] == "SHOW")
 	{
-		
+		//show-cmd ::== SHOW atomic-expr 
+		//Relations expressionParser(string, vector<string>);
+
+		vector<string> Atomic_Expr; 
+		for(int i = 0; i < TOKENS.size();i++)
+		{
+			if(TOKENS[i] != "SHOW")
+			{
+				Atomic_Expr.push_back(TOKENS[i]);
+			}
+
+		}
+
+		Relations temp = expressionParser("temp",Atomic_Expr);
+		temp.show_table(); //WORK please
+		cout<<"\n SHOW SUCCESSFUL!"<<endl;
+
+
 	}
 
 	if(TOKENS[0] == "CREATE")
