@@ -30,6 +30,11 @@ Relations unionize(string, Relations, Relations){Relations temp; return temp;}
 Relations difference(string, Relations, Relations){Relations temp; return temp;}
 Relations cross_prod(string, Relations, Relations);
 
+int Union_Compatible(Relations rel1, Relations rel2);
+Relations Union(string, string, string);
+Relations Difference(string, string, string);
+
+
 
 public:
 

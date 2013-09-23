@@ -31,6 +31,7 @@ Relations difference(string, Relations, Relations);
 Relations cross_prod(string, Relations, Relations);
 
 
+
 public:
 
 int Create_Table(string n, vector<string> a, vector<string> d, vector<string> k)

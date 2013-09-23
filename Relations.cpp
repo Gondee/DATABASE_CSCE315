@@ -52,6 +52,18 @@ Attribute* Relations::get_att(string name)
 	cout << endl << name << " does not exist in " << get_name();
 }
 
+vector<string> Relations::get_keys_names()
+{
+	vector<string> temp;
+	for(int i = 0; i < keys.size(); i++)
+	{
+		if(keys[i])
+			temp.push_back(att_list[i]->get_name());
+	}
+	return temp;
+}
+
+
 int Relations::show_table()
 {	
     

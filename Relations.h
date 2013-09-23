@@ -34,7 +34,7 @@ public:
 	Attribute* get_att(string);
 	
 	int get_num_rows();
-	
+	vector<string> get_keys_names();
 	
 	int insert_tuple(vector<string>); 
 	vector<string*> get_tuple(string item, Attribute* att);
