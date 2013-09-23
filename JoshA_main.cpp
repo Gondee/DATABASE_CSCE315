@@ -74,23 +74,35 @@ test.Insert("dealership",values4);
 test.Insert("dealership",values5);
 
 
-test.View("dealership");
+//test.View("dealership");
 
-cout<<"\n"<<endl;
+//cout<<"\n"<<endl;
 test.Create_Table(name1,items,domain,key);
 test.Insert("Table2",values);
 test.Insert("Table2",values1);
-test.View("Table2");
+//test.View("Table2"); //Commented out by joshk for testing command parser
 
 
-string instruction[] = {"American", "<-", "dealership", "*", "Table2"};
-vector<string> line(instruction,instruction+5);
+//string instruction[] = {"American", "<-", "dealership", "*", "Table2"};
+//vector<string> line(instruction,instruction+5);
+/*
 cout << endl;
 for (int i = 0; i < line.size(); i++)
 	cout << line[i] << " ";
 cout << endl;
+*/
+
+
+//----------------josh kruger testing
+vector<string> line; 
+line.push_back("EXIT");
+line.push_back(";");
+
 test.chooseParser(line);
-test.View("American");
+
+//------------------
+
+//test.View("American");
 //test.create_table("test_table",
 
 //cout << *tablep.table[0][0];
