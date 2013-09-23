@@ -54,7 +54,7 @@ values2.push_back("Bugatti");
 values2.push_back("Veyron");
 values2.push_back("2000000");
 
-values3.push_back("Toyota making this too long");
+values3.push_back("Toyota");
 values3.push_back("Corolla");
 values3.push_back("12000");
 
@@ -84,14 +84,9 @@ test.Insert("Table2",values1);
 //test.View("Table2"); //Commented out by joshk for testing command parser
 
 
-<<<<<<< .mine
-string instruction[] = {"American", "<-", "rename", "(", "1", "2", "3", "4", "5", "6", ")", "(", "dealership", "*", "Table2", ")", ";"};
-vector<string> line(instruction,instruction+16);
-=======
 //string instruction[] = {"American", "<-", "dealership", "*", "Table2"};
 //vector<string> line(instruction,instruction+5);
 /*
->>>>>>> .r23
 cout << endl;
 for (int i = 0; i < line.size(); i++)
 	cout << line[i] << " ";
