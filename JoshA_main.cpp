@@ -96,11 +96,37 @@ cout << endl;
 
 //----------------josh kruger testing
 vector<string> line; 
-line.push_back("EXIT");
+line.push_back("CREATE");
+line.push_back("TABLE");
+line.push_back("animals");
+line.push_back("(");
+line.push_back("name");
+line.push_back("VARCHAR");
+line.push_back("(");
+line.push_back("20");
+line.push_back(")");
+line.push_back(",");	
+line.push_back("kind");
+line.push_back("VARCHAR");
+line.push_back("(");
+line.push_back("8");
+line.push_back(")");
+line.push_back(",");
+line.push_back("years");
+line.push_back("INTEGER");
+line.push_back(")");
+line.push_back("PRIMARY");
+line.push_back("KEY");
+line.push_back("(");
+line.push_back("name");
+line.push_back(",");
+line.push_back("kind");
+line.push_back(")");
 line.push_back(";");
 
-//test.chooseParser(line);
+test.chooseParser(line);
 
+/*
 Parse p;
 vector<string> list;
 list.push_back("CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind);");
@@ -118,7 +144,7 @@ list.push_back("CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years I
     	cout<<toke[x]<<endl;
     }
 
-
+*/
 
 
 
