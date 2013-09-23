@@ -84,9 +84,6 @@ test.Insert("Table2",values1);
 test.View("Table2"); //Commented out by joshk for testing command parser
 
 
-string instruction[] = {"American", "<-", "rename", "(", "1", "2", "3", "4", "5", "6", ")", "(", "dealership", "*", "Table2", ")", ";"};
-vector<string> line(instruction,instruction+16);
-
 string instruction[] = {"American", "<-", "dealership", "*", "Table2"};
 vector<string> line(instruction,instruction+5);
 
@@ -95,11 +92,6 @@ for (int i = 0; i < line.size(); i++)
 	cout << line[i] << " ";
 cout << endl;
 
-
-
-vector<string> line; 
-line.push_back("SHOW");
-line.push_back("dealership");
 
 test.chooseParser(line);
 
