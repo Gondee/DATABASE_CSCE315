@@ -43,7 +43,7 @@ test.Create_Table(name,items,domain,key);
 //cout << test.All_Relations[0]->get_name();
 
 
-vector<string> values, values1, values2, values3, values4, values5;
+vector<string> values, values1, values2, values3, values4, values5, values6;
 values.push_back("Ford");
 values.push_back("Mustang");
 values.push_back("24000");
@@ -68,6 +68,10 @@ values5.push_back("blahje");
 values5.push_back("blahje");
 values5.push_back("10000000");
 
+values6.push_back("Kia");
+values6.push_back("Rio");
+values6.push_back("10000");
+
 
 test.Insert("dealership",values);
 test.Insert("dealership",values1);
@@ -83,11 +87,12 @@ cout<<"\n"<<endl;
 test.Create_Table(name1,items,domain,key);
 test.Insert("Table2",values);
 test.Insert("Table2",values1);
+test.Insert("Table2", values6);
 test.View("Table2"); //Commented out by joshk for testing command parser
 
 
-string instruction[] = {"American0", "<-", "select","(","American0.model", "==", "temp.model", ")", "(", "(", "dealership", "-", "Table2", ")", "*", "(", "dealership", "-", "Table2", ")",")",";"};
-vector<string> line(instruction,instruction+22);
+string instruction[] = {"American", "<-","project", "(", "car", ",", "model", ")", "dealership", ";"};
+vector<string> line(instruction,instruction+10);
 
 cout << endl;
 for (int i = 0; i < line.size(); i++)
@@ -98,7 +103,7 @@ cout << endl;
 test.chooseParser(line);
 
 cout << endl;
-test.View("American0");
+test.View("American");
 //test.create_table("test_table",
 
 //cout << *tablep.table[0][0];
