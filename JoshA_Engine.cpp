@@ -311,10 +311,12 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 	}
 
 	//raise(SIGABRT);
+	while (next < expression.size()){
+	if (expression[next]==")"||expression[next]==";")	//first token that is not )
+		next++;}
+	
 	while (next < expression.size())
 	{
-	while (expression[next]==")")	//first token that is not )
-		next++;
 
 	if (expression[next]=="+"||expression[next]=="-"||expression[next]=="*"){
 
@@ -394,6 +396,30 @@ Relations Engine::cross_prod(string newname, Relations first, Relations second)
 
 
 	}
+
+	return *(DB.get_Relations(newname));
+}
+
+Relations Engine::rename(string newname, Relations rp, vector<string> newatts)
+{
+	vector<Attribute*> atts = rp.get_att_list();
+	vector<string> domains_copy, key_copy;
+	
+	for (int i = 0; i < atts.size(); i++)
+	{
+		domains_copy.push_back(atts[i]->get_domain());
+		if (rp.get_keys()[i])
+			key_copy.push_back(atts[i]->get_name());
+
+	}
+
+	DB.create_Table(newname, newatts, domains_copy, key_copy);
+
+	for (int j = 0; j < rp.get_num_rows(); j++)
+		{
+			vector<string> part1 = rp.get_tuple_string(j);
+			DB.Insert(newname, part1);
+		}
 
 	return *(DB.get_Relations(newname));
 }
