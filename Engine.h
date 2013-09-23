@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 class Engine {
 private:
 
@@ -32,6 +34,10 @@ int View(string n)
 	return DB.show_table(n);
 }
 
+bool FileExists(string); //Checks if the DataBase exists and is not open
+
+
+
 int Difference(string rel1, string rel2); //Harrison, this must be updated to use new Relations specs...
 
 Relations Selection(string,Relations, string, string, compare);
@@ -47,6 +53,8 @@ void chooseParser(vector<string>), queryParser(vector<string>);
 void commandParser(vector<string>);
 Relations expressionParser(string, vector<string>);
 Relations operationsParser(string, vector<string>);
+
+
 
 };
 
