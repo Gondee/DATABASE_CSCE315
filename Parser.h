@@ -7,6 +7,7 @@
 
 #ifndef PARCER_H
 #define	PARCER_H
+#include "Engine.h"
 
 #include <iostream>
 #include <string>

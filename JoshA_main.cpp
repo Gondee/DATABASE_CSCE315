@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 #include "Engine.h"
+#include "Parser.h"
 #include <iostream>
 using namespace std;
 
@@ -98,7 +99,28 @@ vector<string> line;
 line.push_back("EXIT");
 line.push_back(";");
 
-test.chooseParser(line);
+//test.chooseParser(line);
+
+Parse p;
+vector<string> list;
+list.push_back("CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind);");
+    for(int i =0; i< list.size();i++)
+    {
+        
+        p.Tokenize(list[i]);
+        p.Begin_Parse();
+        
+    }
+    vector<string> toke = p.get_tokens();
+
+    for(int x =0; x < toke.size(); x++)
+    {
+    	cout<<toke[x]<<endl;
+    }
+
+
+
+
 
 //------------------
 
