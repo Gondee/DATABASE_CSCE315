@@ -34,9 +34,6 @@ int View(string n)
 }
 
 bool FileExists(string); //Checks if the DataBase exists and is not open
-
-
-
 int Difference(string rel1, string rel2); //Harrison, this must be updated to use new Relations specs...
 
 Relations Selection(string,Relations, string, string, compare);
