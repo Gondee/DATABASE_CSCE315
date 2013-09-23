@@ -75,92 +75,36 @@ test.Insert("dealership",values4);
 test.Insert("dealership",values5);
 
 
-//test.View("dealership");
+test.View("dealership");
 
-//cout<<"\n"<<endl;
+cout<<"\n"<<endl;
 test.Create_Table(name1,items,domain,key);
 test.Insert("Table2",values);
 test.Insert("Table2",values1);
-//test.View("Table2"); //Commented out by joshk for testing command parser
+test.View("Table2"); //Commented out by joshk for testing command parser
 
 
-<<<<<<< .mine
 string instruction[] = {"American", "<-", "rename", "(", "1", "2", "3", "4", "5", "6", ")", "(", "dealership", "*", "Table2", ")", ";"};
 vector<string> line(instruction,instruction+16);
-=======
-//string instruction[] = {"American", "<-", "dealership", "*", "Table2"};
-//vector<string> line(instruction,instruction+5);
-/*
->>>>>>> .r23
+
+string instruction[] = {"American", "<-", "dealership", "*", "Table2"};
+vector<string> line(instruction,instruction+5);
+
 cout << endl;
 for (int i = 0; i < line.size(); i++)
 	cout << line[i] << " ";
 cout << endl;
-*/
 
 
-//----------------josh kruger testing for CREATE
 
 vector<string> line; 
 line.push_back("SHOW");
 line.push_back("dealership");
 
-/*
-line.push_back("CREATE");
-line.push_back("TABLE");
-line.push_back("animals");
-line.push_back("(");
-line.push_back("name");
-line.push_back("VARCHAR");
-line.push_back("(");
-line.push_back("20");
-line.push_back(")");
-line.push_back(",");	
-line.push_back("kind");
-line.push_back("VARCHAR");
-line.push_back("(");
-line.push_back("8");
-line.push_back(")");
-line.push_back(",");
-line.push_back("years");
-line.push_back("INTEGER");
-line.push_back(")");
-line.push_back("PRIMARY");
-line.push_back("KEY");
-line.push_back("(");
-line.push_back("name");
-line.push_back(",");
-line.push_back("kind");
-line.push_back(")");
-line.push_back(";");
-*/
 test.chooseParser(line);
 
-/*
-Parse p;
-vector<string> list;
-list.push_back("CREATE TABLE animals (name VARCHAR(20), kind VARCHAR(8), years INTEGER) PRIMARY KEY (name, kind);");
-    for(int i =0; i< list.size();i++)
-    {
-        
-        p.Tokenize(list[i]);
-        p.Begin_Parse();
-        
-    }
-    vector<string> toke = p.get_tokens();
 
-    for(int x =0; x < toke.size(); x++)
-    {
-    	cout<<toke[x]<<endl;
-    }
-
-*/
-
-
-
-//------------------
-
-//test.View("American");
+test.View("American");
 //test.create_table("test_table",
 
 //cout << *tablep.table[0][0];
