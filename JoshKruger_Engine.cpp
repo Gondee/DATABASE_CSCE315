@@ -76,8 +76,6 @@ void Engine::commandParser(vector<string> TOKENS)
 	if(TOKENS[0] == "WRITE")
 	{
 
-
-
 		/*
 		cout<<" \n WRITING"<<TOKENS[1]<<endl;
 		string FileName = TOKENS[1] + ".DB";
@@ -89,8 +87,6 @@ void Engine::commandParser(vector<string> TOKENS)
   		file.close();
   		cout<<"\n WRITE COMPLETE"<<endl;
 		*/
-
-
 
 	}//Endof WRITE
 
@@ -219,15 +215,18 @@ void Engine::commandParser(vector<string> TOKENS)
 	if(TOKENS[0] == "UPDATE")
 	{
 		
+
 	}
 
 	if(TOKENS[0] == "INSERT")
 	{
 		
+
 	}
 
 	if(TOKENS[0] == "DELETE")
 	{
+		
 		
 	}
 
