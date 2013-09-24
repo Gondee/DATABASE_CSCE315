@@ -63,6 +63,15 @@ vector<string> Relations::get_keys_names()
 	return temp;
 }
 
+int Relations::num_of_keys()
+{
+	int num = 0;
+	for(int i = 0; i < keys.size(); i++)
+		if(keys[i])
+			num++;
+	return num;
+}
+
 
 int Relations::show_table()
 {	
@@ -88,28 +97,30 @@ int Relations::show_table()
 int Relations::insert_tuple(vector<string> items)
 {
 	// Checks for unique key values
+	int count = 0;
 	for(int i = 0; i < table.size(); i++) 
 	{
 		if(keys[i]) 
 		{
 			for(int j = 0; j < table[i].size(); j++)
 			{
-				int count = 0;
 				if(items[i] == *table[i][j])
 				{
-					for (int k = 0; k < table.size(); k++){
-						if(keys[k]&&items[k]==*table[k][j])
-							count++;}
+					count++;
 				}
-
-				if (count==keys.size()){
-				cout << endl <<  items[i] << " is already a key, please insert a new value in " << get_name();
-				cout << " please insert a new tuple";			
-				return 1;}
 			}
 		}
 	}
-
+	
+	if (count==num_of_keys())
+	{
+		for(int i = 0; i < keys.size(); i++)
+			if(keys[i])
+				cout << items[i] << " ";			
+		cout << "is already a key, please insert a new value in " << get_name();		
+		return 1;
+	}
+	
 	bool add = true;
 	for(int i = 0; i < table.size(); i++){
 		if (!att_list[i]->check_domain(items[i]))
@@ -178,8 +189,8 @@ vector<string> Relations::get_tuple_string(int line_num)
 	return tuple;
 
 }
-			
-			
+
+
 			
 			
 			

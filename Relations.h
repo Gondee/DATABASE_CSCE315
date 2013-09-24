@@ -28,20 +28,26 @@ public:
 	
 	string get_name();
     void set_tablename(string);
+	int show_table();
 	
 	vector<Attribute*> get_att_list();
 	int get_att_list_size();
 	Attribute* get_att(string);
 	
-	int get_num_rows();
-	vector<string> get_keys_names();
 	
+	vector<bool> get_keys() {return keys;}
+	vector<string> get_keys_names();
+	int num_of_keys();
+	
+	int get_num_rows();
 	int insert_tuple(vector<string>); 
 	vector<string*> get_tuple(string item, Attribute* att);
-	vector<string*> get_tuple_line(int line_num);
-	int show_table();
-	vector<bool> get_keys() {return keys;}
 	vector<string> get_tuple_string(int);
+	vector<string*> get_tuple_line(int line_num);
+	
+
+
+
 };
 
 
