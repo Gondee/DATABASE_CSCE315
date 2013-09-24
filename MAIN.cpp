@@ -19,6 +19,7 @@ Engine e;
 	{
 
 		string command;
+		cout<<"DBMS+PARSER>> ";
 		getline (cin, command);
 		if(command == "QUIT")
 			break;
@@ -26,6 +27,7 @@ Engine e;
 		p.Tokenize(command);
 		p.Begin_Parse();
 		e.chooseParser(p.get_tokens());
+		
 
 	}
 

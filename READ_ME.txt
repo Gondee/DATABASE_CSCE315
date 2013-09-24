@@ -14,13 +14,12 @@ INSERT INTO animals VALUES FROM ("Joe", "cat", 4);
 INSERT INTO animals VALUES FROM ("Spot", "dog", 10);
 INSERT INTO animals VALUES FROM ("Snoopy", "dog", 3);
 INSERT INTO animals VALUES FROM ("Tweety", "bird", 1);
-INSERT INTO animals VALUES FROM ("Joe", "bird", 2);
 
 SHOW animals;
 
 dogs <- select (kind == "dog") animals;
-old_dogs <- select (age > 10) dogs;
-cats_or_dogs <- dogs + (select (kind == "cat") animals);
+
+
 CREATE TABLE species (kind VARCHAR(10)) PRIMARY KEY (kind);
 INSERT INTO species VALUES FROM RELATION project (kind) animals;
 a <- rename (aname, akind) (project (name, kind) animals);

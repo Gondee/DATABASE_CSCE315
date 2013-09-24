@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <csignal>
 
 
 using namespace std;
@@ -395,7 +396,7 @@ void Engine::commandParser(vector<string> TOKENS)
 			if(Create_Table(RelationName,items,domain,keys) == 0) //Creating relation
 				cout<<"\n CREATE SUCCESSFUL!"<<endl;
 
-			
+			//cout<<"Create done"<<endl;
 
 		} 
 		else
@@ -406,73 +407,204 @@ void Engine::commandParser(vector<string> TOKENS)
 
 	if(TOKENS[0] == "UPDATE")
 	{
+		vector<string> all_comp;
+		int next = 1;
+		string newlist[] = {"==", "<=", "<", ">=", ">", "!="};
+		all_comp.insert(all_comp.end(), newlist, newlist+6);
+		vector<string> complement;
+		vector<string> attr, newval;
 		
-
-	}
-
-	if(TOKENS[0] == "INSERT")
-	{
-		
-
-	}
-
-	if(TOKENS[0] == "DELETE") //Not Done
-	{
-		int Position =0;
-		Position++;
-		string RN; //RelationName
-		string Att; //Attribute in Question
-		string OPP; //Operation to be peformed 
-		string Number; //INTEGER to be computed against
-
-		if(TOKENS[Position] == "FROM")
+		Relations temp = *(DB.get_Relations(TOKENS[next]));
+		Relations temp1, temp2;
+		next++;
+		while (TOKENS[next]!="WHERE"){
+		next++;
+		attr.push_back(TOKENS[next]);
+		next = next + 2;
+		newval.push_back(TOKENS[next]);
+		next++;
+		}
+		next++;
+		for (; TOKENS[next]!=")"&&next<TOKENS.size(); next++)
 		{
-			Position++;
-			RN = TOKENS[Position];
-			Position++;//"WHERE"
-			Position++;//"("
+			if(TOKENS[next]!="(" && TOKENS[next]!=",")
+				complement.push_back(TOKENS[next]);
+		}
+		compare curr_comp, other_comp;
+		for (int i = 0; i < all_comp.size(); i++){
+		if (complement[1]==all_comp[i]){
+			curr_comp = compare(i+1);
+			other_comp = compare(6-i);
+		}}
+		string check = complement[2];
+		std::string::const_iterator it = check.begin();
+		while (it != check.end() && std::isdigit(*it)) ++it;
+		if (it == check.end() || *check.begin()=='"'){
+			if (*check.begin()=='"'){
+				check.erase(check.begin()); check.erase(check.end()-1);}
+			temp1 = Selection("temp", temp, complement[0], check, curr_comp);
+			temp2 = Selection("temp", temp, complement[0], check, other_comp);}
+		else{
+			temp1 = Selection1("temp", temp, complement[0], check, curr_comp);
+			temp2 = Selection1("temp", temp, complement[0], check, other_comp);}
 
-			Position++;//ATT
-			Att = TOKENS[Position];
-			Position++;
-			OPP = TOKENS[Position];
-			Position++;
-			Number = TOKENS[Position];
-
-			vector<string> Condition_Expression;
-			Condition_Expression.push_back("select");
-			Condition_Expression.push_back("(");
-			Condition_Expression.push_back(Att);
-			Condition_Expression.push_back(OPP);
-			Condition_Expression.push_back(Number);
-			Condition_Expression.push_back(")");
-
-			Relations temp = expressionParser("temp", Condition_Expression);
-			
-
-			Condition_Expression.clear();
-			Condition_Expression.push_back("select");
-			Condition_Expression.push_back(RN);
-
-			Relations Original = expressionParser("tempone", Condition_Expression);
-
-
-			Relations temp_Diff = difference("RDiff", temp, Original);
-
-
-
+		vector<Attribute*> atts = temp1.get_att_list();
+		vector<string> domains_copy, key_copy, att_copy;
+	
+		for (int i = 0; i < atts.size(); i++)
+		{
+			att_copy.push_back(atts[i]->get_name());
+			domains_copy.push_back(atts[i]->get_domain());
+			if (temp1.get_keys()[i])
+				key_copy.push_back(atts[i]->get_name());
 
 		}
 
+		DB.create_Table("temp", att_copy, domains_copy, key_copy);
+
+		for (int i = 0; i < temp1.get_num_rows(); i++)
+		{
+			vector<string> whole = temp1.get_tuple_string(i);
 		
+			for (int k = 0; k < atts.size(); k++){
+				for (int j = 0; j < attr.size(); j++)
+				{
+					if (atts[k]->get_name()==attr[j])
+						whole[k]=newval[j];
+				}
+			}
+			DB.Insert("temp", whole);
+		}
+
+		unionize(TOKENS[1], *(DB.get_Relations("temp")), temp2);
+	}//end of update
+
+
+	if(TOKENS[0] == "INSERT")
+	{
+		int Position = 0;
+		string RelationName;
 		
+		RelationName = TOKENS[Position+2]; //Items will be inserted into this relation
+		Position+=5; //Move position forward past INTO, relation name, and VALUES FROM
+		
+		if(TOKENS[Position] == "RELATION")
+		{
+			Position++; // Move position to first (
+			
+			vector<string> Insert_Expression;
+			Insert_Expression.push_back(TOKENS[Position]);
+			Position++;
+			int parenthesis_count = 1;
+			
+			while(parenthesis_count != 0)
+			{			
+				if(TOKENS[Position] == "(")
+					parenthesis_count++;
+				if(TOKENS[Position] == ")")
+					parenthesis_count--;
+				
+				Insert_Expression.push_back(TOKENS[Position]);
+				Position++;
+			}
+			
+			Relations temp = expressionParser("temp", Insert_Expression);
+			Insert_From_Relation(RelationName, "temp");	
+			
+		}
+		else
+		{
+			vector<string> Tuple;
+			Position++; // Move position to first value
+			string check = TOKENS[Position];
+						if (*check.begin()=='"')
+						{
+						check.erase(check.begin()); check.erase(check.end()-1);
+						}
+
+			Tuple.push_back(check);
+			Position++; // Move to , or )
+			while(TOKENS[Position] != ")")
+			{
+				if(TOKENS[Position] == ",")
+				{
+					if(TOKENS[Position+1] == ")")
+					{
+						Position++;
+					}
+					else
+					{
+						check = TOKENS[Position+1];
+						if (*check.begin()=='"')
+						{
+						check.erase(check.begin()); check.erase(check.end()-1);
+						}	
+						Tuple.push_back(check);
+						Position+=2; // Move to next , or to )
+					}
+				}
+			}
+			Insert(RelationName,Tuple);
+		}
 	}
 
+	if(TOKENS[0] == "DELETE")
+	{
+		
+		vector<string> all_comp;
+		int next = 2;
+		string newlist[] = {"==", "<=", "<", ">=", ">", "!="};
+		all_comp.insert(all_comp.end(), newlist, newlist+6);
+		vector<string> complement;
+		
+		Relations temp = *(DB.get_Relations(TOKENS[next]));
+		
+		next = next + 2;
+		cout << TOKENS[next] << endl;
+		for (; TOKENS[next]!=")"&&next<TOKENS.size(); next++)
+		{
+			if(TOKENS[next]!="(" && TOKENS[next]!=",")
+				complement.push_back(TOKENS[next]);
+		}
+		compare curr_comp;
+		for (int i = 0; i < all_comp.size(); i++){
+		if (complement[1]==all_comp[i]){
+			i = 5 - i;
+			curr_comp = compare(i+1);}}
+		string check = complement[2];
+		std::string::const_iterator it = check.begin();
+		while (it != check.end() && std::isdigit(*it)) ++it;
+		if (it == check.end() || *check.begin()=='"'){
+			if (*check.begin()=='"'){
+				check.erase(check.begin()); check.erase(check.end()-1);}
+			Selection(TOKENS[2], temp, complement[0], check, curr_comp);}
+		else{
+			Selection1(TOKENS[2], temp, complement[0], check, curr_comp);}
+		
+	}//end of delete
 
 
 
 
 }//End commandParser
+
+int Engine::Insert_From_Relation(string R1, string R2)
+	{
+	Relations * rel1,* rel2;
+	rel1 = DB.get_Relations(R1);
+	rel2 = DB.get_Relations(R2);
+	
+	if(!Union_Compatible(*rel1, *rel2)) // Check to see if tuple from R2 can be inserted into R1
+		return 1;
+	
+	for(int i = 0; i < rel2->get_num_rows(); i++)
+	{
+		vector<string> Tuple = rel2->get_tuple_string(i);
+		DB.Insert(R1,Tuple);
+	}
+	
+	return 0;
+	}
 
 
 

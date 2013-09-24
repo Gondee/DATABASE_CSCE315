@@ -31,6 +31,7 @@ Relations difference(string, Relations, Relations);
 Relations cross_prod(string, Relations, Relations);
 int Union_Compatible(Relations, Relations);
 bool FileExists(string); //Checks if the DataBase exists and is not open
+int Insert_From_Relation(string R1, string R2);
 
 Relations Union(string, string, string);//Exists in Harrison_Engine.cpp
 Relations Difference(string, string, string);//Exists in HArrison_Engine.cpp
