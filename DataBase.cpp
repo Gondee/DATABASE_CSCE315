@@ -8,9 +8,10 @@ int DataBase::remove_Relation(string s)
 	{
 		if(All_Relations[i]->get_name() == s)
 		{
-			Relations* t = All_Relations[i];
+			//Relations* t = All_Relations[i];
+			delete All_Relations[i];
 			All_Relations.erase(All_Relations.begin()+i);
-			delete t;
+			
 		}
 	}
 	return 0;
