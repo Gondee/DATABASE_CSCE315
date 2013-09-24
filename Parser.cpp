@@ -1,6 +1,7 @@
 
 #include "Parser.h"
-
+#include <sstream>
+#include <iostream>
 
 
 int Parse::Tokenize(string s)
