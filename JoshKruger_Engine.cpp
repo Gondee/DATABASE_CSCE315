@@ -175,6 +175,7 @@ void Engine::commandParser(vector<string> TOKENS)
 
 			if(DB.exist_Relations(TOKENS[1]) ==0)
 				cout<<"Relation Doesnt still"<<endl;
+<<<<<<< HEAD
 
 			Create_Table(TOKENS[1], Atts, Doms, keys); //Creating table
 
@@ -204,10 +205,44 @@ void Engine::commandParser(vector<string> TOKENS)
 
     			}
     			DB.Insert(TOKENS[1],tup);
+=======
+>>>>>>> f9ffa672f88b1699527368eb67ab3894f53dbdf7
+
+			Create_Table(TOKENS[1], Atts, Doms, keys); //Creating table
+
+			//cout<<DB.get_Relations(TOKENS[1])->get_att_list_size()<<endl;
+
+ 			View(TOKENS[1]);			
+
+<<<<<<< HEAD
+=======
+    		while(POS < TUPLES.size())
+    		{
+    			vector<string> tup;
+    			string t = TUPLES[POS];
+    			POS++;
+    			string item_build ="";
+
+    			for(int i =0; i<t.length(); i++)
+    			{
+    				if(t[i] != '|')
+    				{
+    					item_build += t[i];
+    				}
+    				else if(t[i]=='|')
+    				{
+
+    					tup.push_back(item_build);
+    					item_build ="";
+    				}
+
+    			}
+    			DB.Insert(TOKENS[1],tup);
 
 
 
 
+>>>>>>> f9ffa672f88b1699527368eb67ab3894f53dbdf7
     		}
 
 
@@ -282,6 +317,12 @@ void Engine::commandParser(vector<string> TOKENS)
 		{
 			vector<string> tup;
 			tup = DB.get_Relations(TOKENS[1])->get_tuple_string(i);
+<<<<<<< HEAD
+
+			for(int x =0; x < tup.size(); x++)
+			{	
+				file<<tup[x]<<"|";
+=======
 
 			for(int x =0; x < tup.size(); x++)
 			{	
@@ -291,8 +332,17 @@ void Engine::commandParser(vector<string> TOKENS)
 			file<<endl;
 
 		}
+>>>>>>> f9ffa672f88b1699527368eb67ab3894f53dbdf7
+
+			}
+			file<<endl;
+
+<<<<<<< HEAD
+		}
 
 
+=======
+>>>>>>> f9ffa672f88b1699527368eb67ab3894f53dbdf7
 		file<<"--"<<endl;
   		file.close();
   		cout<<"\n WRITE COMPLETE"<<endl;
