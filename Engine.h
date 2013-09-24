@@ -47,14 +47,12 @@ int Insert(string n, vector<string> i)
 	return DB.Insert(n, i);
 }
 
+int Insert_From_Relation(string R1, string R2);
+
 int View(string n)
 {
 	return DB.show_table(n);
 }
-
-
-
-
 
 void chooseParser(vector<string>);
 

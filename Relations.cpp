@@ -3,6 +3,11 @@
 #include <iostream>
 #include <iomanip>
 
+Relations::~Relations()
+{
+	
+}
+
 Relations::Relations(string s, vector<Attribute*> v, vector<bool> k)
 {
     

@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <cstdlib>
 
 
 using namespace std;
@@ -23,6 +24,23 @@ bool Engine::FileExists(string filename) //Checks for existance of DataBase/Rela
     	}  
 }
 
+int Engine::Insert_From_Relation(string R1, string R2)
+{
+	Relations * rel1,* rel2;
+	rel1 = DB.get_Relations(R1);
+	rel2 = DB.get_Relations(R2);
+	
+	if(!Union_Compatible(*rel1, *rel2)) // Check to see if tuple from R2 can be inserted into R1
+		return 1;
+	
+	for(int i = 0; i < rel2->get_num_rows(); i++)
+	{
+		vector<string> Tuple = rel2->get_tuple_string(i);
+		DB.Insert(R1,Tuple);
+	}
+	
+	return 0;
+}
 
 
 void Engine::commandParser(vector<string> TOKENS)
@@ -37,40 +55,177 @@ void Engine::commandParser(vector<string> TOKENS)
 	}
 
 	if(TOKENS[0] == "OPEN")
-	{
+	{	
+		string FileName = TOKENS[1] + ".DB";
 
-
-
-
-		/*		
-		if(FileExists(TOKENS[1]))
+		if(FileExists(FileName))
 		{
-			DB_COMMANDS.clear();	
+			vector<string> FILE;	
     		string STRING;
     		ifstream infile;
-    		string FileName = TOKENS[1] + ".DB";
+    		
     		infile.open (FileName.c_str());
+
     		while(getline(infile,STRING)) // To get you all the lines.
     		{
-        		DB_COMMANDS.push_back(STRING);
-        		//cout<<STRING<<endl;
+        		FILE.push_back(STRING);
+        		
     		}
-    		infile.close();
+    		infile.close(); //Done reading, now to parsing vector
+			
+    		vector<string> keys;
+    		vector<string> Atts;
+    		vector<string> Doms;
+    		vector<string> Ritems;
+
+    		bool keysB = false;
+    		bool attlistB = false;
+    		bool tableB = false;
+
+    		int POS =0; 
+    		while(true)
+    		{
+    			if(FILE[POS] =="KEYS")
+    			{
+    				keysB = true;
+    				POS++;
+    			}
+
+    			if(keysB = true)
+    			{
+    				keys.push_back(FILE[POS]);
+    				POS++;
+    			}
+
+    			if(FILE[POS]=="----")
+    			{
+    				POS++;
+    				break;
+
+    			}
+
+    		}
+
+
+    		string att_name = FILE[POS];
+    		POS++;
+    		string att_domain = FILE[POS];
+    		POS++;
+
+
+    		while(true)
+    		{
+    			if(FILE[POS]=="-----")
+    			{
+    				//cout<<"ENDOF attributes"<<endl;
+    				break;
+    			}
+
+    			//cout<<"LOOP"<<endl;
+    		Ritems.push_back(FILE[POS]);
+    		POS++;
+
+
+
+    		if(FILE[POS] == "---") //Add relation and check for another
+    		{	
+    			//cout<<"ATTRBUTE"<<endl;
+
+    			//cout<<"Attribute name: "<<att_name<<" domain: "<<att_domain<<endl;
+    			DB.add_Attribute(new Attribute(att_name,att_domain));
+    			Atts.push_back(att_name);
+    			Doms.push_back(att_domain);
+
+    			for(int i =0;i<Ritems.size();i++)
+    			{
+    			DB.get_Attribute(att_name)->add_item(Ritems[i]);
+    			}
+
+    			if(FILE[POS+1]=="-----")
+    			{
+    				//cout<<"ENDOF attributes"<<endl;
+    				break;
+    			}
+
+    			POS++;
+    			att_name = FILE[POS];
+    			POS++;
+    			att_domain = FILE[POS];
+    			POS++;
+    			Ritems.clear();
+
+    		}
+
+    		}//end of Attributes and items list
+
+
+    		
+    		POS++;//--- (3) //markers in file
+    		POS++;//----- (5)
+    		
+    		vector<string> TUPLES;
+    		while(FILE[POS] != "--") //pulling tokens
+    		{
+    			TUPLES.push_back(FILE[POS]);
+    			POS++;
+
+    		}
+			POS =0;
+
+
+			if(DB.exist_Relations(TOKENS[1]) ==0)
+				cout<<"Relation Doesnt still"<<endl;
+
+			Create_Table(TOKENS[1], Atts, Doms, keys); //Creating table
+
+			//cout<<DB.get_Relations(TOKENS[1])->get_att_list_size()<<endl;
+
+ 			View(TOKENS[1]);			
+
+    		while(POS < TUPLES.size())
+    		{
+    			vector<string> tup;
+    			string t = TUPLES[POS];
+    			POS++;
+    			string item_build ="";
+
+    			for(int i =0; i<t.length(); i++)
+    			{
+    				if(t[i] != '|')
+    				{
+    					item_build += t[i];
+    				}
+    				else if(t[i]=='|')
+    				{
+
+    					tup.push_back(item_build);
+    					item_build ="";
+    				}
+
+    			}
+    			DB.Insert(TOKENS[1],tup);
+
+
+
+
+    		}
+
+
+
+    		cout<<"\n OPEN SUCCESSFUL!"<<endl;
 		}
 		else 
-			cout<<"Relation Does not exist"<<endl;
-	*/
-
-
-
-
+			{
+				cout<<"REALTION DOES NOT EXIST"<<endl;
+			}
 	}//Endof OPEN
 
 	if(TOKENS[0] == "CLOSE")
 	{
-		DataBase temp; 
-		DB = temp;
-		cout<<"\n CLOSE SUCCESSFUL!"<<endl;
+
+		if(DB.remove_Relation(TOKENS[1]) ==0)
+			cout<<"\n CLOSE SUCCESSFUL!"<<endl;
+
 	}//Endof CLOSE
 
 	if(TOKENS[0] == "WRITE")
@@ -84,15 +239,61 @@ void Engine::commandParser(vector<string> TOKENS)
 		vector<Attribute*> Alist;
 		Alist = (DB.get_Relations(TOKENS[1])->get_att_list()); //Gets the table
 
-		
+		file<<"KEYS"<<endl;//Signifing keys are starting
+
+
+			//ADDING KEYS
+
+		vector<bool> keybool; 
+		keybool = DB.get_Relations(TOKENS[1])->get_keys();
+
+		for(int i = 0; i < Alist.size(); i++)
+		{
+			if(keybool[i] == true)
+			{
+				file<<Alist[i]->get_name()<<endl; //Writing name of key!
+			}
+
+		}
+
+			//KEYS ADDED
+		file<<"----"<<endl; //Shows end of keys, usful for reading
+
+			//ADDING ATTRIBUTES
 		for(int i=0; i<Alist.size(); i++)
 		{
-    		file <<"TEST"<< endl;
+			file <<Alist[i]->get_name()<< endl;
+			file <<Alist[i]->get_domain()<< endl;
+			vector<string*> tempitems;
+			tempitems = Alist[i]->get_items();
+
+			for(int x =0; x < Alist[i]->get_items().size(); x++)
+			{
+				file<<*(tempitems[x])<<endl;
+
+			}
+			file<<"---"<<endl;
+    		
+		}
+
+		file<<"-----"<<endl;//(5) -'s means end of Attributes
+		
+		for(int i =0; i < DB.get_Relations(TOKENS[1])->get_num_rows(); i++)
+		{
+			vector<string> tup;
+			tup = DB.get_Relations(TOKENS[1])->get_tuple_string(i);
+
+			for(int x =0; x < tup.size(); x++)
+			{	
+				file<<tup[x]<<"|";
+
+			}
+			file<<endl;
+
 		}
 
 
-
-
+		file<<"--"<<endl;
   		file.close();
   		cout<<"\n WRITE COMPLETE"<<endl;
 		
@@ -229,8 +430,59 @@ void Engine::commandParser(vector<string> TOKENS)
 
 	if(TOKENS[0] == "INSERT")
 	{
+		int Position = 0;
+		string RelationName;
 		
-
+		RelationName = TOKENS[Position+2]; //Items will be inserted into this relation
+		Position+=5; //Move position forward past INTO, relation name, and VALUES FROM
+		
+		if(TOKENS[Position] == "RELATION")
+		{
+			Position++; // Move position to first (
+			
+			vector<string> Insert_Expression;
+			Insert_Expression.push_back(TOKENS[Position]);
+			Position++;
+			int parenthesis_count = 1;
+			
+			while(parenthesis_count != 0)
+			{			
+				if(TOKENS[Position] == "(")
+					parenthesis_count++;
+				if(TOKENS[Position] == ")")
+					parenthesis_count--;
+				
+				Insert_Expression.push_back(TOKENS[Position]);
+				Position++;
+			}
+			
+			Relations temp = expressionParser("temp", Insert_Expression);
+			Insert_From_Relation(RelationName, "temp");	
+			
+		}
+		else
+		{
+			vector<string> Tuple;
+			Position++; // Move position to first value
+			Tuple.push_back(TOKENS[Position]);
+			Position++; // Move to , or )
+			while(TOKENS[Position] != ")")
+			{
+				if(TOKENS[Position] == ",")
+				{
+					if(TOKENS[Position+1] == ")")
+					{
+						Position++;
+					}
+					else
+					{
+						Tuple.push_back(TOKENS[Position+1]);
+						Position+=2; // Move to next , or to )
+					}
+				}
+			}
+			Insert(RelationName,Tuple);
+		}
 	}
 
 	if(TOKENS[0] == "DELETE") //Not Done

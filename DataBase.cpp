@@ -1,6 +1,23 @@
 
 #include "DataBase.h"
 
+
+int DataBase::remove_Relation(string s)
+{
+	for(int i=0; i<All_Relations.size(); i++)
+	{
+		if(All_Relations[i]->get_name() == s)
+		{
+			//Relations* t = All_Relations[i];
+			delete All_Relations[i];
+			All_Relations.erase(All_Relations.begin()+i);
+			
+		}
+	}
+	return 0;
+}
+
+
 Attribute* DataBase::get_Attribute(string name)
 {
 	for(int i = 0; i < All_Attributes.size(); i++)

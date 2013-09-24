@@ -38,10 +38,12 @@ vector<Relations*> All_Relations;
 Attribute* get_Attribute(string);
 Relations* get_Relations(string);
 
+int remove_Relation(string);
+
 void add_Attribute(Attribute* a);
 void add_Relations(Relations* r);
 
-int exist_Relations(string);
+int exist_Relations(string); //1 =true
 int exist_Attribute(string);
 
 void print_Attribute_Item_List(string);
