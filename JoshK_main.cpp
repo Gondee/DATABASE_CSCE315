@@ -95,11 +95,19 @@ cout << endl;
 
 
 //----------------josh kruger testing for CREATE
+vector<string> t;
+//t.push_back("CLOSE");
+//t.push_back("dealership");
+//test.chooseParser(t);
 
 vector<string> line; 
-line.push_back("SHOW");
+line.push_back("OPEN");
 line.push_back("dealership");
 
+vector<string> y;
+y.push_back("SHOW");
+y.push_back("dealership");
+test.chooseParser(y);
 /*
 line.push_back("CREATE");
 line.push_back("TABLE");

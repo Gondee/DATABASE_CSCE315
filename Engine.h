@@ -52,10 +52,6 @@ int View(string n)
 	return DB.show_table(n);
 }
 
-
-
-
-
 void chooseParser(vector<string>);
 
 
