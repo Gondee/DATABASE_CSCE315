@@ -16,6 +16,7 @@ using namespace std;
  */
 int main() {
     
+
 Engine test;
 vector<string> items, domain, key;
 string name;
@@ -95,19 +96,31 @@ cout << endl;
 
 
 //----------------josh kruger testing for CREATE
-vector<string> t;
-//t.push_back("CLOSE");
-//t.push_back("dealership");
-//test.chooseParser(t);
 
-vector<string> line; 
-line.push_back("OPEN");
-line.push_back("dealership");
 
 vector<string> y;
 y.push_back("SHOW");
 y.push_back("dealership");
 test.chooseParser(y);
+
+
+vector<string> t;
+t.push_back("CLOSE");
+t.push_back("dealership");
+test.chooseParser(t);
+
+
+vector<string> line; 
+line.push_back("OPEN");
+line.push_back("dealership");
+test.chooseParser(line);
+
+vector<string> h;
+h.push_back("SHOW");
+h.push_back("dealership");
+test.chooseParser(h);
+
+
 /*
 line.push_back("CREATE");
 line.push_back("TABLE");
@@ -137,7 +150,7 @@ line.push_back("kind");
 line.push_back(")");
 line.push_back(";");
 */
-test.chooseParser(line);
+
 
 /*
 Parse p;

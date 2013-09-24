@@ -154,8 +154,15 @@ void Engine::commandParser(vector<string> TOKENS)
     		}
 			POS =0;
 
+
+			if(DB.exist_Relations(TOKENS[1]) ==0)
+				cout<<"Relation Doesnt still"<<endl;
+
 			Create_Table(TOKENS[1], Atts, Doms, keys); //Creating table
 
+			//cout<<DB.get_Relations(TOKENS[1])->get_att_list_size()<<endl;
+
+ 			View(TOKENS[1]);			
 
     		while(POS < TUPLES.size())
     		{
@@ -167,15 +174,18 @@ void Engine::commandParser(vector<string> TOKENS)
     			for(int i =0; i<t.length(); i++)
     			{
     				if(t[i] != '|')
+    				{
     					item_build += t[i];
+    				}
     				else if(t[i]=='|')
     				{
+
     					tup.push_back(item_build);
-    					DB.Insert(TOKENS[1],tup);
     					item_build ="";
     				}
 
     			}
+    			DB.Insert(TOKENS[1],tup);
 
 
 
@@ -194,9 +204,10 @@ void Engine::commandParser(vector<string> TOKENS)
 
 	if(TOKENS[0] == "CLOSE")
 	{
-		DataBase temp; 
-		DB = temp;
-		cout<<"\n CLOSE SUCCESSFUL!"<<endl;
+
+		if(DB.remove_Relation(TOKENS[1]) ==0)
+			cout<<"\n CLOSE SUCCESSFUL!"<<endl;
+
 	}//Endof CLOSE
 
 	if(TOKENS[0] == "WRITE")

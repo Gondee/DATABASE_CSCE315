@@ -25,6 +25,7 @@ private:
 public:
     Relations(){} //Do not use default constructor
     Relations(string, vector<Attribute*>, vector<bool>);
+    ~Relations();
 	
 	string get_name();
     void set_tablename(string);
