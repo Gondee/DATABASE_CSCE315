@@ -13,7 +13,7 @@ private:
 DataBase DB;
 enum express{sel = 1, proj, re};
 enum ops{plus=1, cross, diff};
-enum compare{eq = 1, neq, lt, gt, lte, gte};
+enum compare{eq = 1, lte, lt, gte, gt, neq};
 
 
 void commandParser(vector<string>);
