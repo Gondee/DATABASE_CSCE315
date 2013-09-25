@@ -266,17 +266,21 @@ Relations Engine::expressionParser(string newname, vector<string> expression)
 
 Relations Engine::operationsParser(string newname, vector<string> expression)
 {
+	
 	ops curr_op;
 	vector<string> complement;
 	Relations temp, first, second;
 	vector <string> all_ops;
 	string list[] = { "+", "*", "-"};
 	all_ops.insert(all_ops.end(), list, list+3);
-
+	vector<string> check = expression;
+	while (check[check.size()-1]==";"||check[check.size()-1]==")"){
+		check.pop_back();}
 	int next = 0;
 	while (expression[next]=="(")	//first token that is not (
 		next++;
-	if (expression.size() < 3){	//not an operation, just a table
+	
+	if (check.size() < 3){	//not an operation, just a table
 		return *(DB.get_Relations(expression[next]));
 	}
 
@@ -579,7 +583,7 @@ Relations Engine::unionize(string name, Relations rel1, Relations rel2)
 	return *(DB.get_Relations(name));
 }//End of same test if
 
-/*
+
 int Engine::Union_Compatible(Relations rel1, Relations rel2)
 {
 	int sameAttSize = 0;
@@ -601,7 +605,7 @@ int Engine::Union_Compatible(Relations rel1, Relations rel2)
 	else
 		return 0;
 }
-*/
+
 Relations Engine::project(string newname, Relations rp, vector<string> projection)
 {
 	vector<Attribute*> atts = rp.get_att_list();
