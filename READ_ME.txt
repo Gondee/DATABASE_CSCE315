@@ -22,7 +22,7 @@ dogs <- select (kind == "dog") animals;
 
 CREATE TABLE species (kind VARCHAR(10)) PRIMARY KEY (kind);
 INSERT INTO species VALUES FROM RELATION project (kind) animals;
-a <- rename (aname, akind) (project (name, kind) animals);
+a <- rename (aname, akind, ayears) animals;
 answer <- common_names;
 
 WRITE animals;

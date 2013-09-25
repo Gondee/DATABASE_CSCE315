@@ -26,6 +26,7 @@ Engine e;
 
 		p.Tokenize(command);
 		p.Begin_Parse();
+		//cout<<" \n Parse Done"<<endl;
 		e.chooseParser(p.get_tokens());
 		
 

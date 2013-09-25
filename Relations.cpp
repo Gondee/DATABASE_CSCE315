@@ -116,7 +116,7 @@ int Relations::insert_tuple(vector<string> items)
 			}
 		}
 	}
-	
+	/*
 	if (count==num_of_keys())
 	{
 		for(int i = 0; i < keys.size(); i++)
@@ -125,7 +125,7 @@ int Relations::insert_tuple(vector<string> items)
 		cout << "is already a key, please insert a new value in " << get_name();		
 		return 1;
 	}
-	
+	*/
 	bool add = true;
 	for(int i = 0; i < table.size(); i++){
 		if (!att_list[i]->check_domain(items[i]))
