@@ -584,28 +584,6 @@ Relations Engine::unionize(string name, Relations rel1, Relations rel2)
 }//End of same test if
 
 
-int Engine::Union_Compatible(Relations rel1, Relations rel2)
-{
-	int sameAttSize = 0;
-
-	vector<Attribute*> temp1;
-	temp1 = rel1.get_att_list();
-
-	vector<Attribute*> temp2;
-	temp2 = rel2.get_att_list();
-
-	//Test if Relations are comparable
-	for(int i = 0; i < rel1.get_att_list_size(); i++)
-		for(int j = 0; j < rel2.get_att_list_size(); j++)
-			if(temp1[i] == temp2[j])
-					sameAttSize++;
-
-	if(sameAttSize == rel1.get_att_list_size())
-		return 1;
-	else
-		return 0;
-}
-
 Relations Engine::project(string newname, Relations rp, vector<string> projection)
 {
 	vector<Attribute*> atts = rp.get_att_list();
