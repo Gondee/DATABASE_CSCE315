@@ -156,14 +156,12 @@ void Engine::commandParser(vector<string> TOKENS)
 			POS =0;
 
 
-			if(DB.exist_Relations(TOKENS[1]) ==0)
-				cout<<"Relation Doesnt still"<<endl;
+			if(DB.exist_Relations(TOKENS[1]) ==0) //Internal test
+				//cout<<"Relation Doesnt "<<endl;
 
 			Create_Table(TOKENS[1], Atts, Doms, keys); //Creating table
 
-			//cout<<DB.get_Relations(TOKENS[1])->get_att_list_size()<<endl;
-
- 			View(TOKENS[1]);			
+						
 
     		while(POS < TUPLES.size())
     		{
