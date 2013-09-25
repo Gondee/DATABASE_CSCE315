@@ -112,12 +112,20 @@ bool Parse::getToken()
     
     while(true) //For tokens that are not critical characters 
     {
+        
     
         while(INPUT.at(POSITION) != ' ' && INPUT.at(POSITION) != '(' && INPUT.at(POSITION) != ')' &&
                 INPUT.at(POSITION) != ';' && INPUT.at(POSITION) != ',')
         {
+            
             CURRENT_TOKEN += INPUT.at(POSITION);
             POSITION++;
+            
+            if(INPUT.length() <= POSITION)
+            {
+                cout<<"\n SEMICOLON REQUIRED TO END LINE"<<endl;
+                return false;
+            }
             
         }
         
