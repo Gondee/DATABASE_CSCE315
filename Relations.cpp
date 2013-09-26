@@ -117,14 +117,14 @@ int Relations::insert_tuple(vector<string> items)
 		}
 	}
 	
-	if (count==num_of_keys())
+	/*if (count==num_of_keys())
 	{
 		for(int i = 0; i < keys.size(); i++)
 			if(keys[i])
 				cout << items[i] << " ";			
 		cout << "is already a key, please insert a new value in " << get_name();		
 		return 1;
-	}
+	}*/
 	
 	bool add = true;
 	for(int i = 0; i < table.size(); i++){
