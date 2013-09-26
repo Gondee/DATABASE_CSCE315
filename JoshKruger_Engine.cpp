@@ -405,10 +405,7 @@ void Engine::commandParser(vector<string> TOKENS)
 
 	if(TOKENS[0] == "UPDATE")
 	{
-		vector<string> all_comp;
 		int next = 1;
-		string newlist[] = {"==", "<=", "<", ">=", ">", "!="};
-		all_comp.insert(all_comp.end(), newlist, newlist+6);
 		vector<string> complement;
 		vector<string> attr, newval;
 		
@@ -428,23 +425,8 @@ void Engine::commandParser(vector<string> TOKENS)
 			if(TOKENS[next]!="(" && TOKENS[next]!=",")
 				complement.push_back(TOKENS[next]);
 		}
-		compare curr_comp, other_comp;
-		for (int i = 0; i < all_comp.size(); i++){
-		if (complement[1]==all_comp[i]){
-			curr_comp = compare(i+1);
-			other_comp = compare(6-i);
-		}}
-		string check = complement[2];
-		std::string::const_iterator it = check.begin();
-		while (it != check.end() && std::isdigit(*it)) ++it;
-		if (it == check.end() || *check.begin()=='"'){
-			if (*check.begin()=='"'){
-				check.erase(check.begin()); check.erase(check.end()-1);}
-			temp1 = Selection("temp", temp, complement[0], check, curr_comp);
-			temp2 = Selection("temp", temp, complement[0], check, other_comp);}
-		else{
-			temp1 = Selection1("temp", temp, complement[0], check, curr_comp);
-			temp2 = Selection1("temp", temp, complement[0], check, other_comp);}
+		temp1 = conditionshandler("temp", temp, complement);
+		temp2 = difference("temp", temp, temp1);
 
 		vector<Attribute*> atts = temp1.get_att_list();
 		vector<string> domains_copy, key_copy, att_copy;
@@ -548,37 +530,21 @@ void Engine::commandParser(vector<string> TOKENS)
 
 	if(TOKENS[0] == "DELETE")
 	{
-		
-		vector<string> all_comp;
 		int next = 2;
-		string newlist[] = {"==", "<=", "<", ">=", ">", "!="};
-		all_comp.insert(all_comp.end(), newlist, newlist+6);
 		vector<string> complement;
 		
 		Relations temp = *(DB.get_Relations(TOKENS[next]));
 		
 		next = next + 2;
-		cout << TOKENS[next] << endl;
+
 		for (; TOKENS[next]!=")"&&next<TOKENS.size(); next++)
 		{
 			if(TOKENS[next]!="(" && TOKENS[next]!=",")
 				complement.push_back(TOKENS[next]);
 		}
-		compare curr_comp;
-		for (int i = 0; i < all_comp.size(); i++){
-		if (complement[1]==all_comp[i]){
-			i = 5 - i;
-			curr_comp = compare(i+1);}}
-		string check = complement[2];
-		std::string::const_iterator it = check.begin();
-		while (it != check.end() && std::isdigit(*it)) ++it;
-		if (it == check.end() || *check.begin()=='"'){
-			if (*check.begin()=='"'){
-				check.erase(check.begin()); check.erase(check.end()-1);}
-			Selection(TOKENS[2], temp, complement[0], check, curr_comp);}
-		else{
-			Selection1(TOKENS[2], temp, complement[0], check, curr_comp);}
-		
+
+		Relations other = conditionshandler("temp", temp, complement);
+		difference(temp.get_name(), temp, other);
 	}//end of delete
 
 
