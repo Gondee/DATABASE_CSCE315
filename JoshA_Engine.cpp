@@ -2,6 +2,59 @@
 #include <stdlib.h>
 #include <csignal>
 
+Relations Engine::conditionshandler(string newname, Relations rel, vector<string> complement)
+{
+	
+	vector<string> all_comp;
+	string newlist[] = {"==", "!=", "<", ">", "<=", ">="};
+	all_comp.insert(all_comp.end(), newlist, newlist+6);
+
+	compare curr_comp;
+	int next = 0;
+	vector<Relations> changes;
+	Relations temp;
+	int level = 0;
+	changes.push_back(rel);
+	string link = "&&";
+	
+	while(next < complement.size())
+	{
+		for (int i = 0; i < all_comp.size(); i++){
+			if (complement[next+1]==all_comp[i])
+				curr_comp = compare(i+1);}
+		string check = complement[next+2];
+		std::string::const_iterator it = check.begin();
+		while (it != check.end() && std::isdigit(*it)) ++it;
+		if (it == check.end() || *check.begin()=='"'){
+			if (*check.begin()=='"'){
+				check.erase(check.begin()); check.erase(check.end()-1);}
+			if(link=="&&")
+				changes.push_back(Selection(newname, changes[level], complement[next], check, curr_comp));
+
+			else if(link=="||"){
+				temp = Selection("temp", rel, complement[next], check, curr_comp);
+				changes.push_back(unionize(newname, changes[level], temp));
+		}}
+		else{
+			if(link=="&&")
+				changes.push_back(Selection1(newname, changes[level], complement[next], check, curr_comp));
+
+			else if(link=="||"){
+				temp = Selection1("temp", rel, complement[next], check, curr_comp);
+				changes.push_back(unionize(newname, changes[level], temp));
+		}}
+		
+		level++;
+		next = next+3;
+		if (next >= complement.size())
+			break;
+		link = complement[next];
+		next++;
+	}
+	return changes[level];
+
+}
+
 Relations Engine::Selection(string new_name, Relations rp, string att, string value, Engine::compare op)
 {
 	string name_copy = rp.get_name();
@@ -205,11 +258,9 @@ Relations Engine::expressionParser(string newname, vector<string> expression)
 	int next = 0;
 	while (expression[next]=="(")	//first token that is not (
 		next++;
-	vector <string> all_exp, all_comp;
+	vector <string> all_exp;
 	string list[] = { "select", "project", "rename"};
 	all_exp.insert(all_exp.end(), list, list+3);
-	string newlist[] = {"==", "!=", "<", ">", "<=", ">="};
-	all_comp.insert(all_comp.end(), newlist, newlist+6);
 	if (expression[next]=="select"||expression[next]=="project"||expression[next]=="rename")	//don't know about this line
 	{
 		//cout << "tasting\n";
@@ -234,21 +285,7 @@ Relations Engine::expressionParser(string newname, vector<string> expression)
 		switch(curr_exp)
 		{
 		case sel:
-			{
-			compare curr_comp;
-			for (int i = 0; i < all_comp.size(); i++){
-			if (complement[1]==all_comp[i])
-				curr_comp = compare(i+1);}
-			string check = complement[2];
-			std::string::const_iterator it = check.begin();
-			while (it != check.end() && std::isdigit(*it)) ++it;
-			if (it == check.end() || *check.begin()=='"'){
-				if (*check.begin()=='"'){
-					check.erase(check.begin()); check.erase(check.end()-1);}
-				return Selection(newname, temp, complement[0], check, curr_comp);}
-			else{
-				return Selection1(newname, temp, complement[0], check, curr_comp);}
-			}
+			return conditionshandler(newname, temp, complement);
 		case re:
 			return rename(newname, temp, complement);
 		case proj:
@@ -351,8 +388,6 @@ Relations Engine::operationsParser(string newname, vector<string> expression)
 
 Relations Engine::cross_prod(string newname, Relations first, Relations second)
 {
-	string first_copy = first.get_name();
-	string second_copy = second.get_name();
 	vector<Attribute*> firstatts = first.get_att_list();
 	vector<Attribute*> secondatts = second.get_att_list();
 	vector<string> att_names_copy, domains_copy, key_copy;
@@ -361,9 +396,7 @@ Relations Engine::cross_prod(string newname, Relations first, Relations second)
 	{
 		string newatt;
 		if (i < firstatts.size()){
-			newatt = first_copy;
-			newatt += ".";
-			newatt += firstatts[i]->get_name();
+			newatt = firstatts[i]->get_name();
 			att_names_copy.push_back(newatt);
 
 			domains_copy.push_back(firstatts[i]->get_domain());
@@ -373,9 +406,7 @@ Relations Engine::cross_prod(string newname, Relations first, Relations second)
 
 		else
 		{
-			newatt = second_copy;
-			newatt += ".";
-			newatt += secondatts[i-firstatts.size()]->get_name();
+			newatt = secondatts[i-firstatts.size()]->get_name();
 			att_names_copy.push_back(newatt);
 
 			domains_copy.push_back(secondatts[i-firstatts.size()]->get_domain());
@@ -429,160 +460,6 @@ Relations Engine::rename(string newname, Relations rp, vector<string> newatts)
 	return *(DB.get_Relations(newname));
 }
 
-Relations Engine::difference(string name, Relations rel1, Relations rel2)
-{	
-	if(!Union_Compatible(rel1, rel2))
-	{
-		cout << rel1.get_name() << " and " << rel2.get_name() << " are not union compatible." << endl;
-	}
-
-	vector<string> atts, domain, key;
-
-	vector<Attribute*> temp;
-	temp = rel1.get_att_list();
-
-	for(int i = 0; i< rel1.get_att_list_size();i++)
-	{
-		atts.push_back(temp[i]->get_name());
-		domain.push_back(temp[i]->get_domain());
-	}
-	key = rel1.get_keys_names();
-
-	DB.create_Table(name, atts,domain,key);
-	int CheckTuple = 0;
-	vector<bool> MatchR1, MatchR2; // Vector of bools that store if a tuple has a match
-	MatchR1.resize(rel1.get_num_rows());
-	MatchR2.resize(rel2.get_num_rows());
-	
-	for(int i = 0; i < MatchR1.size(); i++) // Initialize Match vector to false
-		MatchR1[i] = false;
-	
-	for(int i = 0; i < MatchR2.size(); i++)
-		MatchR2[i] = false;
-	
-
-	for(int i =0; i < rel1.get_num_rows(); i++)
-	{
-		vector<string*> Tuple;
-		Tuple = rel1.get_tuple_line(i);
-
-		for(int j = 0; j < rel2.get_num_rows(); j++)
-		{
-			vector<string*> TupleTwo;
-			TupleTwo = rel2.get_tuple_line(j);
-
-			for(int k = 0; k < Tuple.size(); k++)
-				for(int l = 0; l < TupleTwo.size(); l++)
-					if(Tuple[k] == TupleTwo[l])
-						CheckTuple++;
-
-			if(CheckTuple == Tuple.size())
-			{
-				MatchR1[i] = true;
-				MatchR2[j] = true;
-			}
-			CheckTuple = 0;
-		}
-	}
-
-	for(int i = 0; i < rel1.get_num_rows(); i++)
-	{
-		vector<string> new_Tuple;
-		if(!MatchR1[i])
-		{
-			new_Tuple = rel1.get_tuple_string(i);
-			DB.Insert(name, new_Tuple);
-		}
-	}
-
-	for(int i = 0; i < rel2.get_num_rows(); i++)
-	{
-		vector<string> new_Tuple;
-		if(!MatchR2[i])
-		{
-			new_Tuple = rel2.get_tuple_string(i);
-			DB.Insert(name, new_Tuple);
-		}
-	}
-	return *(DB.get_Relations(name));
-}//End of same test if
-
-Relations Engine::unionize(string name, Relations rel1, Relations rel2)
-{
-	
-	if(!Union_Compatible(rel1, rel2))
-	{
-		cout << rel1.get_name() << " and " << rel2.get_name() << " are not union compatible." << endl;
-	}
-
-	vector<string> atts, domain, key;
-
-	vector<Attribute*> temp;
-	temp = rel1.get_att_list();
-
-	for(int i = 0; i< rel1.get_att_list_size();i++)
-	{
-		atts.push_back(temp[i]->get_name());
-		domain.push_back(temp[i]->get_domain());
-	}
-	key = rel1.get_keys_names();
-
-	DB.create_Table(name, atts,domain,key);
-	int CheckTuple = 0;
-	vector<bool> MatchR1, MatchR2; // Vector of bools that store if a tuple has a match
-	MatchR1.resize(rel1.get_num_rows());
-	MatchR2.resize(rel2.get_num_rows());
-	
-	for(int i = 0; i < MatchR1.size(); i++) // Initialize Match vector to false
-		MatchR1[i] = false;
-	
-	for(int i = 0; i < MatchR2.size(); i++)
-		MatchR2[i] = false;
-	
-
-	for(int i =0; i < rel1.get_num_rows(); i++)
-	{
-		vector<string*> Tuple;
-		Tuple = rel1.get_tuple_line(i);
-
-		for(int j = 0; j < rel2.get_num_rows(); j++)
-		{
-			vector<string*> TupleTwo;
-			TupleTwo = rel2.get_tuple_line(j);
-
-			for(int k = 0; k < Tuple.size(); k++)
-				for(int l = 0; l < TupleTwo.size(); l++)
-					if(Tuple[k] == TupleTwo[l])
-						CheckTuple++;
-
-			if(CheckTuple == Tuple.size())
-			{
-				MatchR1[i] = true;
-				MatchR2[j] = true;
-			}
-			CheckTuple = 0;
-		}
-	}
-
-	for(int i = 0; i < rel1.get_num_rows(); i++)
-	{
-		vector<string> new_Tuple;
-		new_Tuple = rel1.get_tuple_string(i);
-		DB.Insert(name, new_Tuple);
-	}
-
-	for(int i = 0; i < rel2.get_num_rows(); i++)
-	{
-		vector<string> new_Tuple;
-		if(!MatchR2[i])
-		{
-			new_Tuple = rel2.get_tuple_string(i);
-			DB.Insert(name, new_Tuple);
-		}
-	}
-	return *(DB.get_Relations(name));
-}//End of same test if
-
 
 Relations Engine::project(string newname, Relations rp, vector<string> projection)
 {
@@ -627,5 +504,81 @@ Relations Engine::project(string newname, Relations rp, vector<string> projectio
 
 	return *(DB.get_Relations(newname));
 
+
+}
+
+Relations Engine::difference(string newname, Relations R1, Relations R2)
+{
+	if(!Union_Compatible(R1, R2))
+	{
+		cout << R1.get_name() << " and " << R2.get_name() << " are not union compatible." << endl;
+	}
+	
+	int sameAttSize =0;
+	//Test if Relations are comparable 
+	for(int i = 0; i < R1.get_att_list().size(); i++)
+	{
+		vector<Attribute*> temp;
+		temp = R1.get_att_list();
+
+		vector<Attribute*> temp2;
+		temp2 = R2.get_att_list();
+
+		if(temp[i] == temp2[i])
+		{
+			sameAttSize++;
+
+		}
+	
+	}
+
+
+if(sameAttSize == (R1.get_att_list().size()))
+{
+	//vector<string> items, domain, key;
+	
+	vector<Attribute*> atts = R1.get_att_list();
+	vector<string> att_names_copy, domains_copy, key_copy;
+	
+
+	for (int i = 0; i < atts.size(); i++)
+	{
+		att_names_copy.push_back(atts[i]->get_name());
+		domains_copy.push_back(atts[i]->get_domain());
+		if (R1.get_keys()[i])
+			key_copy.push_back(atts[i]->get_name());
+
+	}
+	DB.create_Table(newname, att_names_copy, domains_copy, key_copy);
+	
+	for(int i =0; i < R1.get_num_rows(); i++)
+	{
+		bool add = true;
+		vector<string> Tuple;
+		Tuple = R1.get_tuple_string(i);
+
+		for(int j = 0; j < R2.get_num_rows(); j++)
+		{
+			int count = 0;
+			vector<string> TupleTwo;
+			TupleTwo = R2.get_tuple_string(j);
+
+			for (int k = 0; k < Tuple.size(); k++){
+				if (Tuple[k]==TupleTwo[k])
+					count++;
+			}
+			if(count==Tuple.size())
+				add = false;
+		}
+
+		if (add)
+			DB.Insert(newname, Tuple);
+
+	}
+
+}//End of same test if
+
+
+	return *(DB.get_Relations(newname)); 
 
 }

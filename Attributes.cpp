@@ -36,6 +36,8 @@ bool Attribute::check_domain(string s)
 	{
 		for(int i = 0; i < s.length(); i++)
 		{
+			if(s.length()>0&&i==0&&s[i]=='-')
+				i++;
 			if(!isdigit(s[i])){
 				cout << endl << "\"" << s << "\" is not an integer.";
 				return false;}

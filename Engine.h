@@ -4,6 +4,7 @@
 #include "DataBase.h"
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -20,6 +21,7 @@ void commandParser(vector<string>);
 void queryParser(vector<string>);
 Relations expressionParser(string, vector<string>);
 Relations operationsParser(string, vector<string>);
+Relations conditionshandler(string, Relations, vector<string>);
 
 Relations Selection(string,Relations, string, string, compare);
 Relations Selection1(string, Relations, string, string, compare);
