@@ -57,6 +57,7 @@ public:
     //Commands
     bool Command_Check();
     bool C_Close();
+    bool C_Open();
     bool C_Write();
     bool C_Exit();
     bool C_Show();

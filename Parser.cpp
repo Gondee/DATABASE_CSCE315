@@ -252,6 +252,8 @@ bool Parse::Begin_Parse()
         return true;
     if(C_Delete()==true)
         return true;
+    if(C_OPEN()==true)
+        return true;
      
      
      return false; //Not a command
@@ -324,6 +326,15 @@ bool Parse::C_Close() //Done
 bool Parse::C_Write() //Done
 {
     if(Validate("WRITE"))
+    {
+        return RelationsWord();
+    }
+    return false; //if not a relation after WRITE
+
+}
+bool Parse::C_Open() //Done
+{
+    if(Validate("OPEN"))
     {
         return RelationsWord();
     }
