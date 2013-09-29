@@ -17,6 +17,7 @@ int Parse::Tokenize(string s)
     
 }
 
+
 bool Parse::getToken()
 {
     //cout<<INPUT.size()<<" - "<<POSITION<<endl;
