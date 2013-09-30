@@ -252,7 +252,7 @@ bool Parse::Begin_Parse()
         return true;
     if(C_Delete()==true)
         return true;
-    if(C_OPEN()==true)
+    if(C_Open()==true)
         return true;
      
      
