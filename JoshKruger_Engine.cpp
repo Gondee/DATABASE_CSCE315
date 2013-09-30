@@ -105,8 +105,11 @@ void Engine::commandParser(vector<string> TOKENS)
     			}
 
     			//cout<<"LOOP"<<endl;
-    		Ritems.push_back(FILE[POS]);
-    		POS++;
+    			if(FILE[POS]!= "---")
+    			{
+    			Ritems.push_back(FILE[POS]);
+    			POS++;
+    			}
 
 
 
@@ -114,7 +117,7 @@ void Engine::commandParser(vector<string> TOKENS)
     		{	
     			//cout<<"ATTRBUTE"<<endl;
 
-    			//cout<<"Attribute name: "<<att_name<<" domain: "<<att_domain<<endl;
+    			cout<<"Attribute name: "<<att_name<<" domain: "<<att_domain<<endl;
     			DB.add_Attribute(new Attribute(att_name,att_domain));
     			Atts.push_back(att_name);
     			Doms.push_back(att_domain);
@@ -145,23 +148,36 @@ void Engine::commandParser(vector<string> TOKENS)
     		
     		POS++;//--- (3) //markers in file
     		POS++;//----- (5)
-    		
+    		int Num_Tuples = 0;
     		vector<string> TUPLES;
-    		while(FILE[POS] != "--") //pulling tokens
+
+    		//cout<<"FILE Length: "<<FILE.size()<<" Currently: "<<POS<<endl;
+
+    		if(FILE.size() != POS)
     		{
+    			 
+    			while(FILE[POS] != "--") //pulling tokens
+    			{
     			TUPLES.push_back(FILE[POS]);
     			POS++;
+    			Num_Tuples++;
 
+    			}
     		}
+    		
 			POS =0;
 
 
-			if(DB.exist_Relations(TOKENS[1]) ==0) //Internal test
+			//if(DB.exist_Relations(TOKENS[1]) ==0) //Internal test
 				//cout<<"Relation Doesnt "<<endl;
-
+			
 			Create_Table(TOKENS[1], Atts, Doms, keys); //Creating table
 
-						
+				
+			if(Num_Tuples !=0)
+    		{
+    			
+		
 
     		while(POS < TUPLES.size())
     		{
@@ -190,6 +206,7 @@ void Engine::commandParser(vector<string> TOKENS)
 
 
     		}
+    	}
 
 
 
