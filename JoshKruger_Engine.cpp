@@ -209,6 +209,16 @@ void Engine::commandParser(vector<string> TOKENS)
     	}
 
 
+    	vector<Attribute*> Alist;
+		Alist = (DB.get_Relations(TOKENS[1])->get_att_list()); //Gets the table
+
+		for(int i=0; i< Alist.size(); i++)
+		{
+			cout<<"Attribute["<<i<<"] - "<<Alist[i]->get_name()<<endl;
+
+		}
+
+
 
     		cout<<"\n OPEN SUCCESSFUL!"<<endl;
 		}

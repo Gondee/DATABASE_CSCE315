@@ -16,12 +16,13 @@ int choice, choice1;
 string PatientID, FirstName, LastName, Gender, Address, Phone, Email;
 string PhysicianID, Specialty;
 string AppointmentID, Date, StartTime, EndTime, Procedure, Fee;
-
+string command;
 cout<<"Hospital Database Management System"<<endl;
 cout<<"-----------------------------------"<<endl<<endl;
-	
 
 
+if(!e.FileExists("Patient.DB"))
+{
 	string command = "CREATE TABLE Patient (PatientID INTEGER, FirstName VARCHAR(20), LastName VARCHAR(20), Gender VARCHAR(1), Address VARCHAR(60), Phone VARCHAR(10), Email VARCHAR(40)) PRIMARY KEY (PatientID);";
 	p.Tokenize(command);
 	p.Begin_Parse();
@@ -34,10 +35,9 @@ cout<<"-----------------------------------"<<endl<<endl;
 	p.Tokenize(command);
 	p.Begin_Parse();
 	e.chooseParser(p.get_tokens());
-
-
-/*
-	string command = "OPEN Patient;";
+}
+else{
+	command = "OPEN Patient;";
 	p.Tokenize(command);
 	p.Begin_Parse();
 	e.chooseParser(p.get_tokens());
@@ -49,8 +49,8 @@ cout<<"-----------------------------------"<<endl<<endl;
 	p.Tokenize(command);
 	p.Begin_Parse();
 	e.chooseParser(p.get_tokens());
+}
 
-*/
 while(!quit)
 {
 

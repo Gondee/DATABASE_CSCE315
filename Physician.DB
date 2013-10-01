@@ -3,6 +3,7 @@ PhysicianID
 ----
 PhysicianID
 INTEGER
+4343454
 ---
 FirstName
 VARCHAR(20)
@@ -14,6 +15,8 @@ kruger
 ---
 Specialty
 VARCHAR(20)
+knee
 ---
 -----
+4343454|joshua|kruger|knee|
 --

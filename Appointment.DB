@@ -6,10 +6,10 @@ INTEGER
 ---
 PatientID
 INTEGER
-44444444
 ---
 PhysicianID
 INTEGER
+4343454
 ---
 Date
 VARCHAR(10)
