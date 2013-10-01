@@ -1,0 +1,17 @@
+KEYS
+PhysicianID
+----
+PhysicianID
+INTEGER
+---
+FirstName
+VARCHAR(20)
+---
+LastName
+VARCHAR(20)
+---
+Specialty
+VARCHAR(20)
+---
+-----
+--
