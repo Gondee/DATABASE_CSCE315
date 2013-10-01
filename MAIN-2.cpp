@@ -127,6 +127,7 @@ while(!quit)
 			break;	
 		default: 
 			cout<<"INVALID INPUT"<<endl<<endl;
+			break;
 		}
 
 
@@ -199,6 +200,7 @@ while(!quit)
 			break;		
 		default:
 			cout<<"INVALID INPUT"<<endl<<endl;
+			break;
 		}	
 		break;
 	case 3:
@@ -227,7 +229,7 @@ while(!quit)
 			cin>>Procedure;
 			cout<<"Enter the fee for the appointment: ";
 			cin>>Fee;
-			command = "INSERT INTO Appointment VALUES FROM ("+AppointmentID+", "+PatientID+", "+PhysicianID+", \""+Date+"\", \""+StartTime+"\", \""+EndTime+"\", \""+Procedure+"\", \""+Fee+"\");";	
+			command = "INSERT INTO Appointment VALUES FROM ("+AppointmentID+", "+PatientID+", "+PhysicianID+", "+Date+", "+StartTime+", "+EndTime+", "+Procedure+", "+Fee+");";	
 			cout<<command;
 			p.Tokenize(command);
 			p.Begin_Parse();
