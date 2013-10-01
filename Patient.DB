@@ -3,32 +3,27 @@ PatientID
 ----
 PatientID
 INTEGER
-44444444
+12121212
 ---
 FirstName
 VARCHAR(20)
-joshua
+John
 ---
 LastName
 VARCHAR(20)
-kruger
+Hopkins
 ---
 Gender
 VARCHAR(1)
-M
 ---
 Address
 VARCHAR(60)
-3043 adf
 ---
 Phone
 VARCHAR(10)
-456456456
 ---
 Email
 VARCHAR(40)
-djalskdf@gasdfm.com
 ---
 -----
-44444444|joshua|kruger|M|3043 adf|456456456|djalskdf@gasdfm.com|
 --
