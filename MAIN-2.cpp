@@ -230,7 +230,7 @@ while(!quit)
 			cin>>Procedure;
 			cout<<"Enter the fee for the appointment: ";
 			cin>>Fee;
-			command = "INSERT INTO Appointment VALUES FROM ("+AppointmentID+", "+PatientID+", "+PhysicianID+", "+Date+", "+StartTime+", "+EndTime+", "+Procedure+", "+Fee+");";	
+			command = "INSERT INTO Appointment VALUES FROM ("+AppointmentID+", "+PatientID+", "+PhysicianID+", \""+Date+"\", \""+StartTime+"\", \""+EndTime+"\", \""+Procedure+"\", \""+Fee+"\");";	
 			p.Tokenize(command);
 			p.Begin_Parse();
 			e.chooseParser(p.get_tokens());
@@ -263,7 +263,7 @@ while(!quit)
 		case 4:
 			cout<<"Enter the date of the appointments you want to list: ";
 			cin>>Date;
-			command = "temp <- select (Date == "+Date+") Appointment;";
+			command = "temp <- select (Date == \""+Date+"\") Appointment;";
 			p.Tokenize(command);
 			p.Begin_Parse();
 			e.chooseParser(p.get_tokens());
