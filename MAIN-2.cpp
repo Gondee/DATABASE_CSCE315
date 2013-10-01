@@ -208,6 +208,7 @@ while(!quit)
 		cout<<"2. Reschedule appointment"<<endl;
 		cout<<"3. Cancel appointment"<<endl;
 		cout<<"4. List all appointments for a certain date"<<endl;
+		cout<<"5. List all appointments for a certain physician"<<endl;
 		cout<<"Enter a number to choose an operation: ";
 		cin>>choice1;
 		switch(choice1)
@@ -230,7 +231,6 @@ while(!quit)
 			cout<<"Enter the fee for the appointment: ";
 			cin>>Fee;
 			command = "INSERT INTO Appointment VALUES FROM ("+AppointmentID+", "+PatientID+", "+PhysicianID+", "+Date+", "+StartTime+", "+EndTime+", "+Procedure+", "+Fee+");";	
-			cout<<command;
 			p.Tokenize(command);
 			p.Begin_Parse();
 			e.chooseParser(p.get_tokens());
@@ -272,8 +272,28 @@ while(!quit)
 			p.Tokenize(command);
 			p.Begin_Parse();
 			e.chooseParser(p.get_tokens());
-			break;		
-		
+			break;
+		case 5:
+			cout <<"Enter the ID of the Doctor: ";
+			cin >> PhysicianID;
+			command = "temp1 <- project (PhysicianID, FirstName, LastName) (select (PhysicianID == "+PhysicianID+") Physician);";
+			p.Tokenize(command);
+			p.Begin_Parse();
+			e.chooseParser(p.get_tokens());
+			command = "temp2 <- project (AppointmentID, PatientID, Date, StartTime, EndTime, Procedure, Fee) (select (PhysicianID == "+PhysicianID+") Appointment);";
+			p.Tokenize(command);
+			p.Begin_Parse();
+			e.chooseParser(p.get_tokens());
+			command = "temp <- temp1 * temp2;";
+			p.Tokenize(command);
+			p.Begin_Parse();
+			e.chooseParser(p.get_tokens());
+			cout<<endl;
+			command = "SHOW temp;";
+			p.Tokenize(command);
+			p.Begin_Parse();
+			e.chooseParser(p.get_tokens());
+			break;
 		default:
 			cout<<"INVALID INPUT"<<endl<<endl;
 			break;
