@@ -1,6 +1,7 @@
 
 #include "DataBase.h"
-
+#include <iostream>
+using namespace std;
 
 int DataBase::remove_Relation(string s)
 {
@@ -40,7 +41,21 @@ Relations* DataBase::get_Relations(string name)
 
 void DataBase::add_Attribute(Attribute* a)
 {
-	All_Attributes.push_back(a);
+bool duplicate = false;
+	for(int i =0; i<All_Attributes.size(); i++)
+	{
+		if(a->get_name() == (All_Attributes[i]->get_name()))
+		{
+			duplicate = true;
+		}
+
+	}
+
+	if(duplicate == false)
+		All_Attributes.push_back(a);
+	else{
+		cout<<"Duplicate Att"<<endl;
+	}
 }
 
 void DataBase::add_Relations(Relations* r)

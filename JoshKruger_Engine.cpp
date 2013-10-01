@@ -119,6 +119,7 @@ void Engine::commandParser(vector<string> TOKENS)
 
     			//cout<<"Attribute name: "<<att_name<<" domain: "<<att_domain<<endl;
     			DB.add_Attribute(new Attribute(att_name,att_domain));
+    			//cout<<"After new"<<endl;
     			Atts.push_back(att_name);
     			Doms.push_back(att_domain);
 
@@ -214,7 +215,7 @@ void Engine::commandParser(vector<string> TOKENS)
 
 		for(int i=0; i< Alist.size(); i++)
 		{
-			cout<<"Attribute["<<i<<"] - "<<Alist[i]->get_name()<<endl;
+			//cout<<"Attribute["<<i<<"] - "<<Alist[i]->get_name()<<endl;
 
 		}
 
@@ -250,7 +251,7 @@ void Engine::commandParser(vector<string> TOKENS)
 
 		for(int i=0; i< Alist.size(); i++)
 		{
-			cout<<"Attribute["<<i<<"] - "<<Alist[i]->get_name()<<endl;
+			//cout<<"Attribute["<<i<<"] - "<<Alist[i]->get_name()<<endl;
 
 		}
 
