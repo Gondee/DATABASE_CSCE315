@@ -3,14 +3,18 @@ PatientID
 ----
 PatientID
 INTEGER
+<<<<<<< HEAD
+=======
+12121212
+>>>>>>> 166e1a8c1838400bde2c47212044d3be4f5d5abe
 ---
 FirstName
 VARCHAR(20)
-joshua
+John
 ---
 LastName
 VARCHAR(20)
-kruger
+Hopkins
 ---
 Gender
 VARCHAR(1)
