@@ -130,6 +130,7 @@ int DataBase::create_Table(string name, vector<string> att_names,
 			add_Attribute( new Attribute(att_names[i], domains[i]));
 			rel_atts.push_back(All_Attributes.back());
 		}
+		exist = 'n'; //Added with TA
 	}
 	
 	add_Relations(new Relations(name, rel_atts, keys));

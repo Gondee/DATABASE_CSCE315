@@ -117,7 +117,7 @@ void Engine::commandParser(vector<string> TOKENS)
     		{	
     			//cout<<"ATTRBUTE"<<endl;
 
-    			cout<<"Attribute name: "<<att_name<<" domain: "<<att_domain<<endl;
+    			//cout<<"Attribute name: "<<att_name<<" domain: "<<att_domain<<endl;
     			DB.add_Attribute(new Attribute(att_name,att_domain));
     			Atts.push_back(att_name);
     			Doms.push_back(att_domain);
@@ -230,12 +230,20 @@ void Engine::commandParser(vector<string> TOKENS)
 	{
 
 		
-		cout<<" \n WRITING"<<TOKENS[1]<<endl;
+
+		//cout<<" \n WRITING"<<TOKENS[1]<<endl;
 		string FileName = TOKENS[1] + ".DB";
 		ofstream file (FileName.c_str());
 
 		vector<Attribute*> Alist;
 		Alist = (DB.get_Relations(TOKENS[1])->get_att_list()); //Gets the table
+
+		for(int i=0; i< Alist.size(); i++)
+		{
+			cout<<"Attribute["<<i<<"] - "<<Alist[i]->get_name()<<endl;
+
+		}
+
 
 		file<<"KEYS"<<endl;//Signifing keys are starting
 

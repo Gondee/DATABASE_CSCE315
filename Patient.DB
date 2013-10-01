@@ -3,15 +3,15 @@ PatientID
 ----
 PatientID
 INTEGER
-421001024
+44444444
 ---
 FirstName
 VARCHAR(20)
-FirstName1
+joshua
 ---
 LastName
 VARCHAR(20)
-LastName2
+kruger
 ---
 Gender
 VARCHAR(1)
@@ -19,16 +19,16 @@ M
 ---
 Address
 VARCHAR(60)
-Address1
+3043 adf
 ---
 Phone
 VARCHAR(10)
-Phone1
+456456456
 ---
 Email
 VARCHAR(40)
-Email1
+djalskdf@gasdfm.com
 ---
 -----
-421001024|FirstName1|LastName2|M|Address1|Phone1|Email1|
+44444444|joshua|kruger|M|3043 adf|456456456|djalskdf@gasdfm.com|
 --

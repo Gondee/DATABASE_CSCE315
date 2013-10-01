@@ -6,11 +6,11 @@ INTEGER
 ---
 FirstName
 VARCHAR(20)
-FirstName1
+joshua
 ---
 LastName
 VARCHAR(20)
-LastName2
+kruger
 ---
 Specialty
 VARCHAR(20)
