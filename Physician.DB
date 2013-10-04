@@ -3,12 +3,16 @@ PhysicianID
 ----
 PhysicianID
 INTEGER
+11111111
 ---
 FirstName
 VARCHAR(20)
+joshua
+jack
 ---
 LastName
 VARCHAR(20)
+kruger
 ---
 Specialty
 VARCHAR(20)

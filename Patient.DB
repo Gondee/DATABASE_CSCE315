@@ -3,24 +3,35 @@ PatientID
 ----
 PatientID
 INTEGER
+88888888
+22222222
 ---
 FirstName
 VARCHAR(20)
+joshua
+jack
 ---
 LastName
 VARCHAR(20)
+kruger
 ---
 Gender
 VARCHAR(1)
+M
 ---
 Address
 VARCHAR(60)
+1000 fazio cove
 ---
 Phone
 VARCHAR(10)
+5124614164
 ---
 Email
 VARCHAR(40)
+thegondee@gmail.com
 ---
 -----
+88888888|joshua|kruger|M|1000 fazio cove|5124614164|thegondee@gmail.com|
+22222222|jack|kruger|M|1000 fazio cove|5124614164|thegondee@gmail.com|
 --
