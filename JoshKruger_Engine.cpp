@@ -9,6 +9,7 @@
 using namespace std;
 
 
+
 bool Engine::FileExists(string filename) //Checks for existance of DataBase/Relations, ourside of currently opened
 {
    ifstream f(filename.c_str());
@@ -221,7 +222,7 @@ void Engine::commandParser(vector<string> TOKENS)
 
 
 
-    		cout<<"\n OPEN SUCCESSFUL!"<<endl;
+    		//cout<<"\n OPEN SUCCESSFUL!"<<endl;
 		}
 		else 
 			{
@@ -312,7 +313,7 @@ void Engine::commandParser(vector<string> TOKENS)
 
 		file<<"--"<<endl;
   		file.close();
-  		cout<<"\n WRITE COMPLETE"<<endl;
+  		//cout<<"\n WRITE COMPLETE"<<endl;
 		
 
 	}//Endof WRITE
@@ -342,7 +343,7 @@ void Engine::commandParser(vector<string> TOKENS)
 
 		Relations temp = expressionParser("temp",Atomic_Expr);
 		temp.show_table(); //WORK please
-		cout<<"\n SHOW SUCCESSFUL!"<<endl;
+		//cout<<"\n SHOW SUCCESSFUL!"<<endl;
 
 
 	}
@@ -428,7 +429,9 @@ void Engine::commandParser(vector<string> TOKENS)
 
 
 			if(Create_Table(RelationName,items,domain,keys) == 0) //Creating relation
-				cout<<"\n CREATE SUCCESSFUL!"<<endl;
+			{
+				//cout<<"\n CREATE SUCCESSFUL!"<<endl;
+			}
 
 			//cout<<"Create done"<<endl;
 

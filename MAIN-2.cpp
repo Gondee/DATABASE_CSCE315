@@ -17,8 +17,8 @@ string PatientID, FirstName, LastName, Gender, Address, Phone, Email;
 string PhysicianID, Specialty;
 string AppointmentID, Date, StartTime, EndTime, Procedure, Fee;
 string command;
-cout<<"Hospital Database Management System"<<endl;
-cout<<"-----------------------------------"<<endl<<endl;
+cout<<"\n Hospital Database Management System"<<endl;
+
 
 
 if(!e.FileExists("Patient.DB"))
@@ -53,19 +53,21 @@ else{
 
 while(!quit)
 {
-
-	cout<<"Operations on..."<<endl<<endl;
+	cout<<"\n-----------------------------------"<<endl;
+	cout<<" \n \n \t Main Menu"<<endl<<endl;
+	cout<<"\n-----------------------------------"<<endl;
 	cout<<"1. Patient"<<endl;
 	cout<<"2. Physician"<<endl;
 	cout<<"3. Appointment"<<endl;
-	cout<<"4. Quit"<<endl<<endl;
+	cout<<"4. Quit and Save"<<endl<<endl;
 	cout<<"Enter a number: ";
 	cin>>choice;
-	cout<<endl<<endl;
+	//cout<<endl;
 
 	switch(choice)
 	{
 	case 1:
+		cout<<"\n-----------------------------------"<<endl;
 		cout<<"1. Add patient"<<endl;
 		cout<<"2  Remove patient"<<endl;
 		cout<<"3. List all patients"<<endl;
@@ -76,21 +78,21 @@ while(!quit)
 		switch(choice1)
 		{
 		case 1:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter an 8-digit PatientID: ";
 			cin>>PatientID;
-			cout<<endl<<"Enter the patient's first name: ";
+			cout<<"Enter the patient's first name: ";
 			cin>>FirstName;
-			cout<<endl<<"Enter the patient's last name: ";
+			cout<<"Enter the patient's last name: ";
 			cin>>LastName;
-			cout<<endl<<"Enter the patient's gender (either M or F): ";
+			cout<<"Enter the patient's gender (either M or F): ";
 			cin>>Gender;
-			cout<<endl<<"Enter the patient's address: ";
+			cout<<"Enter the patient's address: ";
 			cin.ignore();
 			getline (cin,Address);
-			cout<<Address;
-			cout<<endl<<"Enter the patient's phone number: ";
+			cout<<"Enter the patient's phone number: ";
 			cin>>Phone;
-			cout<<endl<<"Enter the patient's email: ";
+			cout<<"Enter the patient's email: ";
 			cin>>Email;
 			command = "INSERT INTO Patient VALUES FROM ("+PatientID+", \""+FirstName+"\", \""+LastName+"\", \""+Gender+"\", \""+Address+"\", \""+Phone+"\", \""+Email+"\");";	
 			p.Tokenize(command);
@@ -98,6 +100,7 @@ while(!quit)
 			e.chooseParser(p.get_tokens());
 			break;
 		case 2:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter the PatientID of the patient you want to delete: ";
 			cin>>PatientID;
 			command = "DELETE FROM Patient WHERE (PatientID == "+PatientID+");";
@@ -113,6 +116,7 @@ while(!quit)
 			e.chooseParser(p.get_tokens());
 			break;
 		case 4:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter the PatientID of the patient you want to search for: ";
 			cin>>PatientID;
 			command = "temp <- select (PatientID == "+PatientID+") Patient;";
@@ -133,6 +137,7 @@ while(!quit)
 
 		break;
 	case 2:
+		cout<<"\n-----------------------------------"<<endl;
 		cout<<"1. Add physician "<<endl;
 		cout<<"2. Remove physician"<<endl;
 		cout<<"3. List all physcians"<<endl;		
@@ -144,6 +149,7 @@ while(!quit)
 		switch(choice1)
 		{
 		case 1:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter the physician's PhysicianID: ";
 			cin>>PhysicianID;
 			cout<<"Enter the physician's first name: ";
@@ -158,6 +164,7 @@ while(!quit)
 			e.chooseParser(p.get_tokens());
 			break;
 		case 2:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter the PhysicianID of the physician you want to delete: ";
 			cin>>PhysicianID;
 			command = "DELETE FROM Physician WHERE (PhysicianID == "+PhysicianID+");";
@@ -173,6 +180,7 @@ while(!quit)
 			e.chooseParser(p.get_tokens());
 			break;
 		case 4:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter the specialty of the physicans you want to list: ";
 			cin>>Specialty;
 			command = "temp <- select (Specialty == \""+Specialty+"\") Physician;";
@@ -186,6 +194,7 @@ while(!quit)
 			e.chooseParser(p.get_tokens());
 			break;	
 		case 5:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter the PhysicianID of the physician you want to search for: ";
 			cin>>PhysicianID;
 			command = "temp <- select (PhysicianID == "+PhysicianID+") Physician;";
@@ -204,6 +213,7 @@ while(!quit)
 		}	
 		break;
 	case 3:
+		cout<<"\n-----------------------------------"<<endl;
 		cout<<"1. Create appointment"<<endl;
 		cout<<"2. Reschedule appointment"<<endl;
 		cout<<"3. Cancel appointment"<<endl;
@@ -214,8 +224,9 @@ while(!quit)
 		switch(choice1)
 		{
 		case 1:
-		       cout<<"Enter an 8-digit AppointmentID: ";
-	      		cin>>AppointmentID;
+			cout<<"\n-----------------------------------"<<endl;
+		    cout<<"Enter an 8-digit AppointmentID: ";
+	      	cin>>AppointmentID;
 	 		cout<<"Enter an 8-digit PatientID: ";
 			cin>>PatientID;
 			cout<<"Enter an 8-digit PhysicianID: ";
@@ -237,6 +248,7 @@ while(!quit)
 	
 			break;
 		case 2:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter AppointmentID: ";
 			cin>>AppointmentID;
 			cout<<"Enter new date for appointment: ";
@@ -252,6 +264,7 @@ while(!quit)
 			e.chooseParser(p.get_tokens());
 			break;
 		case 3:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter the AppointmentID of the appointment you want to delete: ";
 			cin>>AppointmentID;
 			command = "DELETE FROM Appointment WHERE (AppointmentID == "+AppointmentID+");";
@@ -261,6 +274,7 @@ while(!quit)
 			e.chooseParser(p.get_tokens());
 			break;
 		case 4:
+			cout<<"\n-----------------------------------"<<endl;
 			cout<<"Enter the date of the appointments you want to list: ";
 			cin>>Date;
 			command = "temp <- select (Date == \""+Date+"\") Appointment;";
@@ -274,6 +288,7 @@ while(!quit)
 			e.chooseParser(p.get_tokens());
 			break;
 		case 5:
+			cout<<"\n-----------------------------------"<<endl;
 			cout <<"Enter the ID of the Doctor: ";
 			cin >> PhysicianID;
 			command = "temp1 <- project (PhysicianID, FirstName, LastName) (select (PhysicianID == "+PhysicianID+") Physician);";
@@ -312,6 +327,8 @@ while(!quit)
 		p.Tokenize(command);
 		p.Begin_Parse();
 		e.chooseParser(p.get_tokens());
+
+		cout<<"\n End...";
 		quit = true;
 		break;
 	default:

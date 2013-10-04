@@ -54,7 +54,7 @@ bool duplicate = false;
 	if(duplicate == false)
 		All_Attributes.push_back(a);
 	else{
-		cout<<"Duplicate Att"<<endl;
+		//cout<<"Duplicate Att"<<endl;
 	}
 }
 
@@ -101,6 +101,8 @@ int DataBase::exist_Attribute(string name)
 	else
 		return 1;
 }
+
+
 
 void DataBase::print_Attribute_Item_List(string name)
 {
