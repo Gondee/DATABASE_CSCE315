@@ -5,15 +5,23 @@ PatientID
 INTEGER
 88888888
 22222222
+12345667
+12333333
 ---
 FirstName
 VARCHAR(20)
 joshua
 jack
+Harrison
+Josh
+maddy
 ---
 LastName
 VARCHAR(20)
 kruger
+Kurtz
+Amaku
+man
 ---
 Gender
 VARCHAR(1)
@@ -22,16 +30,24 @@ M
 Address
 VARCHAR(60)
 1000 fazio cove
+dasdfj street
+32434 street
 ---
 Phone
 VARCHAR(10)
 5124614164
+5124334444
+4345555555
 ---
 Email
 VARCHAR(40)
 thegondee@gmail.com
+harsondkrurtz@gmail.com
+grasshopper113@gmail.com
 ---
 -----
 88888888|joshua|kruger|M|1000 fazio cove|5124614164|thegondee@gmail.com|
 22222222|jack|kruger|M|1000 fazio cove|5124614164|thegondee@gmail.com|
+12345667|Harrison|Kurtz|M|dasdfj street|5124334444|harsondkrurtz@gmail.com|
+12333333|Josh|Amaku|M|32434 street|4345555555|grasshopper113@gmail.com|
 --
