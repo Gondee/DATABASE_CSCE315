@@ -103,6 +103,8 @@ int Relations::insert_tuple(vector<string> items)
 {
 	// Checks for unique key values
 	int count = 0;
+	if(num_of_keys()!=0)
+	{
 	for(int i = 0; i < table.size(); i++) 
 	{
 		if(keys[i]) 
@@ -124,6 +126,7 @@ int Relations::insert_tuple(vector<string> items)
 				cout << items[i] << " ";			
 		cout << "is already a key, please insert a new value in " << get_name();		
 		return 1;
+	}
 	}
 	bool add = true;
 	for(int i = 0; i < table.size(); i++){

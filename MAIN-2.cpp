@@ -72,6 +72,7 @@ while(!quit)
 		cout<<"2  Remove patient"<<endl;
 		cout<<"3. List all patients"<<endl;
 		cout<<"4. Search for a patient"<<endl;
+		cout<<"5. Show patients without an appointment"<<endl;
 		cout<<"Enter a number to choose an operation: ";
 		cin>>choice1;
 		cout<<endl<<endl;
@@ -129,6 +130,25 @@ while(!quit)
 			p.Begin_Parse();
 			e.chooseParser(p.get_tokens());
 			break;	
+		case 5:
+			cout<<"\n-----------------------------------"<<endl;
+			command = "temp1 <- project (PatientID) Appointment);";
+			p.Tokenize(command);
+			p.Begin_Parse();
+			e.chooseParser(p.get_tokens());
+			command = "temp2 <- project (PatientID) Patient;";
+			p.Tokenize(command);
+			p.Begin_Parse();
+			e.chooseParser(p.get_tokens());
+			command = "temp <- temp2 - temp1;";
+			p.Tokenize(command);
+			p.Begin_Parse();
+			e.chooseParser(p.get_tokens());
+			command = "SHOW temp;";
+			p.Tokenize(command);
+			p.Begin_Parse();
+			e.chooseParser(p.get_tokens());
+			break;
 		default: 
 			cout<<"INVALID INPUT"<<endl<<endl;
 			break;
@@ -299,12 +319,12 @@ while(!quit)
 			p.Tokenize(command);
 			p.Begin_Parse();
 			e.chooseParser(p.get_tokens());
-			command = "temp <- temp1 * temp2;";
+			command = "temp3 <- temp1 * temp2;";
 			p.Tokenize(command);
 			p.Begin_Parse();
 			e.chooseParser(p.get_tokens());
 			cout<<endl;
-			command = "SHOW temp;";
+			command = "SHOW temp3;";
 			p.Tokenize(command);
 			p.Begin_Parse();
 			e.chooseParser(p.get_tokens());
